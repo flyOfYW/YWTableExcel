@@ -1,0 +1,22 @@
+{
+  "name": "YWTableExcel",
+  "version": "0.1.0",
+  "summary": "A short description of YWTableExcel.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/flyOfYW/YWTableExcel",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "flyOfYW": "1498627884@qq.com"
+  },
+  "source": {
+    "git": "https://github.com/flyOfYW/YWTableExcel.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "YWTableExcel/Classes/**/*"
+}

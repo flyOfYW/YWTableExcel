@@ -22,6 +22,8 @@
 		6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5B8195388D20070C39A /* InfoPlist.strings */; };
 		6003F5BC195388D20070C39A /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5BB195388D20070C39A /* Tests.m */; };
 		71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */; };
+		7BF1C7EB23A37BA4002EA0BA /* YWDemo1.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BF1C7EA23A37BA4002EA0BA /* YWDemo1.m */; };
+		7BF1C7EE23A37C8B002EA0BA /* YWDemo2.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BF1C7ED23A37C8B002EA0BA /* YWDemo2.m */; };
 		7CC8A5C94AB03F12BAE2F205 /* Pods_YWTableExcel_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0991C560A98247A82491818E /* Pods_YWTableExcel_Example.framework */; };
 		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
 /* End PBXBuildFile section */
@@ -61,12 +63,16 @@
 		6003F5BB195388D20070C39A /* Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Tests.m; sourceTree = "<group>"; };
 		606FC2411953D9B200FFA9A0 /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
 		71719F9E1E33DC2100824A3D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		81CCDF7B3ACC32AA1C240825 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		7BF1C7E923A37BA4002EA0BA /* YWDemo1.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YWDemo1.h; sourceTree = "<group>"; };
+		7BF1C7EA23A37BA4002EA0BA /* YWDemo1.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YWDemo1.m; sourceTree = "<group>"; };
+		7BF1C7EC23A37C8B002EA0BA /* YWDemo2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YWDemo2.h; sourceTree = "<group>"; };
+		7BF1C7ED23A37C8B002EA0BA /* YWDemo2.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YWDemo2.m; sourceTree = "<group>"; };
+		81CCDF7B3ACC32AA1C240825 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		83A5C673F43B114C3DCBB9C2 /* Pods-YWTableExcel_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YWTableExcel_Example.debug.xcconfig"; path = "Target Support Files/Pods-YWTableExcel_Example/Pods-YWTableExcel_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9CF2945DFC5428D3DB83E706 /* Pods-YWTableExcel_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YWTableExcel_Tests.release.xcconfig"; path = "Target Support Files/Pods-YWTableExcel_Tests/Pods-YWTableExcel_Tests.release.xcconfig"; sourceTree = "<group>"; };
-		A7C00E1EBEA8009C82D67415 /* YWTableExcel.podspec */ = {isa = PBXFileReference; includeInIndex = 1; name = YWTableExcel.podspec; path = ../YWTableExcel.podspec; sourceTree = "<group>"; };
-		D43C3C1F76CCD4F72037929C /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		A7C00E1EBEA8009C82D67415 /* YWTableExcel.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = YWTableExcel.podspec; path = ../YWTableExcel.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		D43C3C1F76CCD4F72037929C /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,7 +109,6 @@
 				1AA247E549E1F8CF7A19637F /* Pods-YWTableExcel_Tests.debug.xcconfig */,
 				9CF2945DFC5428D3DB83E706 /* Pods-YWTableExcel_Tests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -149,6 +154,10 @@
 				873B8AEA1B1F5CCA007FD442 /* Main.storyboard */,
 				6003F5A5195388D20070C39A /* YWViewController.h */,
 				6003F5A6195388D20070C39A /* YWViewController.m */,
+				7BF1C7E923A37BA4002EA0BA /* YWDemo1.h */,
+				7BF1C7EA23A37BA4002EA0BA /* YWDemo1.m */,
+				7BF1C7EC23A37C8B002EA0BA /* YWDemo2.h */,
+				7BF1C7ED23A37C8B002EA0BA /* YWDemo2.m */,
 				71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */,
 				6003F5A8195388D20070C39A /* Images.xcassets */,
 				6003F594195388D20070C39A /* Supporting Files */,
@@ -248,6 +257,9 @@
 				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = flyOfYW;
 				TargetAttributes = {
+					6003F589195388D20070C39A = {
+						DevelopmentTeam = 5N7DECL4Z5;
+					};
 					6003F5AD195388D20070C39A = {
 						TestTargetID = 6003F589195388D20070C39A;
 					};
@@ -258,6 +270,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -365,8 +378,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				6003F59E195388D20070C39A /* YWAppDelegate.m in Sources */,
+				7BF1C7EE23A37C8B002EA0BA /* YWDemo2.m in Sources */,
 				6003F5A7195388D20070C39A /* YWViewController.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
+				7BF1C7EB23A37BA4002EA0BA /* YWDemo1.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -494,6 +509,7 @@
 			baseConfigurationReference = 83A5C673F43B114C3DCBB9C2 /* Pods-YWTableExcel_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 5N7DECL4Z5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "YWTableExcel/YWTableExcel-Prefix.pch";
 				INFOPLIST_FILE = "YWTableExcel/YWTableExcel-Info.plist";
@@ -510,6 +526,7 @@
 			baseConfigurationReference = 276FFC8C3EDE771D2313EEBF /* Pods-YWTableExcel_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 5N7DECL4Z5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "YWTableExcel/YWTableExcel-Prefix.pch";
 				INFOPLIST_FILE = "YWTableExcel/YWTableExcel-Info.plist";

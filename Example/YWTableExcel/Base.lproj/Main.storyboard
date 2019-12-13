@@ -1,14 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="whP-gf-Uak">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="0kW-h0-C3m">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="ZD7-Bl-XIC">
+            <objects>
+                <navigationController id="0kW-h0-C3m" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="HYW-n1-LIf">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="whP-gf-Uak" kind="relationship" relationship="rootViewController" id="pU2-PO-dYE"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tVy-dd-ufH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-572" y="481"/>
+        </scene>
         <!--View Controller-->
         <scene sceneID="wQg-tq-qST">
             <objects>
@@ -20,8 +34,40 @@
                     <view key="view" contentMode="scaleToFill" id="TpU-gO-2f1">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NTK-mi-Ce9">
+                                <rect key="frame" x="20" y="74" width="214" height="30"/>
+                                <color key="backgroundColor" systemColor="systemPurpleColor" red="0.68627450980000004" green="0.32156862749999998" blue="0.87058823529999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="oaE-nh-jVg"/>
+                                </constraints>
+                                <state key="normal" title="YWTableExcelViewStyleDefalut"/>
+                                <connections>
+                                    <action selector="defalutAction:" destination="whP-gf-Uak" eventType="touchUpInside" id="SaI-eK-Dv1"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hO8-aJ-yT6">
+                                <rect key="frame" x="20" y="124" width="214" height="30"/>
+                                <color key="backgroundColor" systemColor="systemPurpleColor" red="0.68627450980000004" green="0.32156862749999998" blue="0.87058823529999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="YWTableExcelViewStyleDefalut"/>
+                                <connections>
+                                    <action selector="planAction:" destination="whP-gf-Uak" eventType="touchUpInside" id="V2L-c7-drY"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="NTK-mi-Ce9" firstAttribute="top" secondItem="uEw-UM-LJ8" secondAttribute="bottom" constant="30" id="2Ao-gh-PGc"/>
+                            <constraint firstItem="NTK-mi-Ce9" firstAttribute="height" secondItem="hO8-aJ-yT6" secondAttribute="height" id="2GZ-Y1-dpP"/>
+                            <constraint firstItem="NTK-mi-Ce9" firstAttribute="leading" secondItem="TpU-gO-2f1" secondAttribute="leading" constant="20" id="371-9X-PTJ"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="hO8-aJ-yT6" secondAttribute="trailing" constant="20" symbolic="YES" id="FFs-kZ-fsY"/>
+                            <constraint firstItem="hO8-aJ-yT6" firstAttribute="top" secondItem="NTK-mi-Ce9" secondAttribute="bottom" constant="20" id="d5S-De-xTR"/>
+                            <constraint firstItem="hO8-aJ-yT6" firstAttribute="width" secondItem="NTK-mi-Ce9" secondAttribute="width" id="mRF-Xf-dYi"/>
+                            <constraint firstItem="hO8-aJ-yT6" firstAttribute="leading" secondItem="NTK-mi-Ce9" secondAttribute="leading" id="uLD-2D-eoj"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="NTK-mi-Ce9" secondAttribute="trailing" constant="20" symbolic="YES" id="xdC-WY-EFr"/>
+                        </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="ZKh-dX-pki"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tc2-Qw-aMS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

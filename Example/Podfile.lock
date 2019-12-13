@@ -1,0 +1,16 @@
+PODS:
+  - YWTableExcel (0.1.0)
+
+DEPENDENCIES:
+  - YWTableExcel (from `../`)
+
+EXTERNAL SOURCES:
+  YWTableExcel:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  YWTableExcel: 527b63166de3a39551ac135284feb62905aec502
+
+PODFILE CHECKSUM: 9045177ce296debf5489e8d4d9cd041694d01e16
+
+COCOAPODS: 1.8.3

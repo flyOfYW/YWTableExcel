@@ -1,0 +1,6 @@
+framework module YWTableExcel {
+  umbrella header "YWTableExcel-umbrella.h"
+
+  export *
+  module * { export * }
+}
