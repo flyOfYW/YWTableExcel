@@ -6,14 +6,35 @@
 [![Platform](https://img.shields.io/cocoapods/p/YWTableExcel.svg?style=flat)](https://cocoapods.org/pods/YWTableExcel)
 
 ## Example
-   类似tableView的用法
 ```
+- (void)viewDidLoad{
    YWTableExcelViewMode *mode = [YWTableExcelViewMode new];
     mode.columnStyle = YWTableExcelViewColumnStyleText;//不需要点击模式
     YWTableExcelView *excelView = [[YWTableExcelView alloc] initWithFrame:CGRectZero withMode:mode];
     excelView.delegate = self;
     excelView.dataSource = self;
     [self.view addSubview:_excelView];
+}
+///返回固定列表头的数据
+- (NSArray<YWColumnMode *> *)tableExcelView:(YWTableExcelView *)excelView titleForFixedHeaderInSection:(NSInteger)section{
+    return _fixedColumnList;
+}
+///返回可滑动列表头的数据
+-(NSArray<YWColumnMode *> *)tableExcelView:(YWTableExcelView *)excelView titleForSlideHeaderInSection:(NSInteger)section{
+    return _slideColumnList;
+}
+///行数
+- (NSInteger)tableExcelView:(YWTableExcelView *)excelView numberOfRowsInSection:(NSInteger)section{
+    return 20;
+}
+///给每个单元格返回相应的数据model（固定列）
+- (NSArray<YWColumnMode *> *)tableExcelView:(YWTableExcelView *)excelView fixedCellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return _fixedList[indexPath.row];
+}
+///给每个单元格返回相应的数据model（可滑动列）
+- (NSArray<YWColumnMode *> *)tableExcelView:(YWTableExcelView *)excelView slideCellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return _slideList[indexPath.row];
+}
 ```
 
 ## Requirements
