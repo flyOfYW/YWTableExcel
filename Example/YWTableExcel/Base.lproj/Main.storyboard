@@ -58,6 +58,16 @@
                                     <action selector="planAction:" destination="whP-gf-Uak" eventType="touchUpInside" id="V2L-c7-drY"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vs0-55-kdH">
+                                <rect key="frame" x="20" y="184" width="214" height="30"/>
+                                <color key="backgroundColor" systemColor="linkColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="表头和分组">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="sectionAction:" destination="whP-gf-Uak" eventType="touchUpInside" id="fcV-CI-4jN"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -65,7 +75,10 @@
                             <constraint firstItem="NTK-mi-Ce9" firstAttribute="height" secondItem="hO8-aJ-yT6" secondAttribute="height" id="2GZ-Y1-dpP"/>
                             <constraint firstItem="NTK-mi-Ce9" firstAttribute="leading" secondItem="TpU-gO-2f1" secondAttribute="leading" constant="20" id="371-9X-PTJ"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="hO8-aJ-yT6" secondAttribute="trailing" constant="20" symbolic="YES" id="FFs-kZ-fsY"/>
+                            <constraint firstItem="vs0-55-kdH" firstAttribute="leading" secondItem="hO8-aJ-yT6" secondAttribute="leading" id="NsC-Fx-vdf"/>
+                            <constraint firstItem="vs0-55-kdH" firstAttribute="top" secondItem="hO8-aJ-yT6" secondAttribute="bottom" constant="30" id="bn5-cd-cY1"/>
                             <constraint firstItem="hO8-aJ-yT6" firstAttribute="top" secondItem="NTK-mi-Ce9" secondAttribute="bottom" constant="20" id="d5S-De-xTR"/>
+                            <constraint firstItem="vs0-55-kdH" firstAttribute="width" secondItem="hO8-aJ-yT6" secondAttribute="width" id="f2H-Uy-1qy"/>
                             <constraint firstItem="hO8-aJ-yT6" firstAttribute="width" secondItem="NTK-mi-Ce9" secondAttribute="width" id="mRF-Xf-dYi"/>
                             <constraint firstItem="hO8-aJ-yT6" firstAttribute="leading" secondItem="NTK-mi-Ce9" secondAttribute="leading" id="uLD-2D-eoj"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="NTK-mi-Ce9" secondAttribute="trailing" constant="20" symbolic="YES" id="xdC-WY-EFr"/>

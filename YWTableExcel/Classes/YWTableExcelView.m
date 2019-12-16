@@ -20,12 +20,16 @@ YWTableExcelCellDelegate>
     } _dataSourceHas;
     struct {
         unsigned didSelectColumnAtIndexPath : 1;
+        unsigned excelViewForHeaderInSectionMode : 1;
+        unsigned viewForHeaderInSection : 1;
+        unsigned heightForHeaderInSection : 1;
     } _delegateHas;
     NSMutableArray *_list;
     BOOL _isAddheadView;
     BOOL _isAddVerticalView;
     BOOL _isAddHorizontalView;
-    
+    NSLayoutConstraint *_top;
+    NSLayoutConstraint *_bottom;
 }
 /**当前控制样式的mode*/
 @property (nonatomic, strong) YWTableExcelViewMode *mode;
@@ -40,6 +44,7 @@ YWTableExcelCellDelegate>
 @property (nonatomic, strong) YWTableExcelCell *excelCell;
 @property (nonatomic, strong) UIView *verticalView;
 @property (nonatomic, strong) UIView *horizontalView;
+@property (nonatomic, strong) UIView *contentView;
 
 @end
 
@@ -51,18 +56,15 @@ YWTableExcelCellDelegate>
     [self reloadContentData];
 }
 - (void)reloadHeadData{
-    if (_mode.style == YWTableExcelViewStyleDefalut) {
-        _fixedColumnList = [self getFixedColumn:0];
-        _slideColumnList = [self getSlideColumn:0];
-        [_headView reloadDataFixed:_fixedColumnList slide:_slideColumnList];
-    }else if (_mode.style == YWTableExcelViewStylePlain){
-        _fixedColumnList = @[];
-        _slideColumnList = [self getSlideColumn:0];
-        [_headView reloadDataFixed:_fixedColumnList slide:_slideColumnList];
-    }
+    _fixedColumnList = [self getFixedColumn:0];
+    _slideColumnList = [self getSlideColumn:0];
+    [_headView reloadDataFixed:_fixedColumnList slide:_slideColumnList];
 }
 - (void)reloadContentData{
     [_tableView reloadData];
+}
+- (void)selectRowAtIndexPath:(nullable NSIndexPath *)indexPath animated:(BOOL)animated scrollPosition:(UITableViewScrollPosition)scrollPosition{
+    [self.tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:scrollPosition];
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return [self getSection];
@@ -77,7 +79,6 @@ YWTableExcelCellDelegate>
         cell.selectionStyle = _selectionStyle == 0 ? UITableViewCellSelectionStyleNone : UITableViewCellSelectionStyleDefault;
         cell.selection = _selectionStyle == 0 ? NO : YES;
         cell.delegate = self;
-        cell.contentView.backgroundColor = self.backgroundColor;
     }
     _excelCell = cell;
     __weak typeof(self)weakSelf = self;
@@ -93,8 +94,31 @@ YWTableExcelCellDelegate>
         slideList = [_dataSource tableExcelView:self slideCellForRowAtIndexPath:indexPath];
     }
     [cell reloadFixed:fixedList slide:slideList];
-    
+    fixedList = nil;
+    slideList = nil;
     return cell;
+}
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    if (_delegateHas.excelViewForHeaderInSectionMode) {
+        YWTableExcelViewHeaderInSectionMode mode = [_delegate tableExcelView:self modeForHeaderInSection:section];
+        if (mode == YWTableExcelViewHeaderInSectionModeCustom){
+            if (_delegateHas.viewForHeaderInSection) {
+                return [_delegate tableExcelView:self viewForHeaderInSection:section];
+            }
+        }
+    }
+    return nil;
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    if (_delegateHas.excelViewForHeaderInSectionMode) {
+        YWTableExcelViewHeaderInSectionMode mode = [_delegate tableExcelView:self modeForHeaderInSection:section];
+        if (mode == YWTableExcelViewHeaderInSectionModeCustom){
+            if (_delegateHas.heightForHeaderInSection) {
+                return [_delegate tableExcelView:self heightForHeaderInSection:section];
+            }
+        }
+    }
+    return 0.0001f;
 }
 - (void)clickExcel:(UITableViewCell *)cell column:(NSInteger)column{
     NSIndexPath *indexPath = [_tableView indexPathForCell:cell];
@@ -110,7 +134,7 @@ YWTableExcelCellDelegate>
         _mode = mode;
         _list = @[].mutableCopy;
         _dividerColor = [UIColor redColor];
-        _widthOrHeight = 2;
+        _widthOrHeight = 1;
         [self prepareInit:mode];
     }
     return self;
@@ -125,40 +149,52 @@ YWTableExcelCellDelegate>
     _cellConfig.notifiKey = _NotificationID;
     _cellConfig.columnBorderColor = mode.columnBorderColor;
     _cellConfig.columnBorderWidth = mode.columnBorderWidth;
-    switch (mode.style) {
-        case YWTableExcelViewStyleDefalut:
-            [self createUIWithDefalut];
-            break;
-        case YWTableExcelViewStylePlain:
-            [self createUIWithDefalut];
-            break;
-        default:
-            break;
-    }
+    
+    [self addSubview:self.contentView];
+    [_contentView addConstraint:NSLayoutAttributeLeft equalTo:self offset:0];
+    [_contentView addConstraint:NSLayoutAttributeRight equalTo:self offset:0];
+    _top = [NSLayoutConstraint constraintWithItem:_contentView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1.0 constant:0];
+    [_contentView addLayoutConstraint:_top];
+    _bottom = [NSLayoutConstraint constraintWithItem:_contentView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0];
+    [_contentView addLayoutConstraint:_bottom];
+    
+    [self createUIWithDefalut];
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(scrollMove:) name:_NotificationID object:nil];
 }
 
 - (void)createUIWithDefalut{
-    
-    _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+    if (_mode.sectionStyle == YWTableExcelViewSectionStylePlain) {
+        _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+    }else if (_mode.sectionStyle == YWTableExcelViewSectionStyleGrouped){
+        _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
+    }else if (@available(iOS 13.0, *)) {
+        if (_mode.sectionStyle == YWTableExcelViewSectionStyleInsetGrouped){
+            _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
+            //            _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleInsetGrouped];
+        }
+    } else {
+        _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+    }
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _headView = [[YWTableExcelViewHeaderView alloc] initWithReuseIdentifier:nil cellConfig:_cellConfig];
     _headView.contentView.backgroundColor = self.backgroundColor;
-    [self addSubview:_headView];
+    [_contentView addSubview:_headView];
     _tableView.rowHeight = _mode.defalutHeight;
+    _tableView.sectionFooterHeight = 0.000001f;
     _tableView.dataSource = self;
     _tableView.delegate = self;
-    [self addSubview:_tableView];
+    [_contentView addSubview:_tableView];
     
-    [_headView addConstraint:NSLayoutAttributeLeft equalTo:self offset:0];
-    [_headView addConstraint:NSLayoutAttributeRight equalTo:self offset:0];
-    [_headView addConstraint:NSLayoutAttributeTop equalTo:self offset:0];
+    [_headView addConstraint:NSLayoutAttributeLeft equalTo:_contentView offset:0];
+    [_headView addConstraint:NSLayoutAttributeRight equalTo:_contentView offset:0];
+    [_headView addConstraint:NSLayoutAttributeTop equalTo:_contentView offset:0];
     [_headView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:_mode.defalutHeight];
     
-    [_tableView addConstraint:NSLayoutAttributeLeft equalTo:self offset:0];
-    [_tableView addConstraint:NSLayoutAttributeRight equalTo:self offset:0];
-    [_tableView addConstraint:NSLayoutAttributeTop equalTo:self offset:_mode.defalutHeight];
-    [_tableView addConstraint:NSLayoutAttributeBottom equalTo:self offset:0];
+    [_tableView addConstraint:NSLayoutAttributeLeft equalTo:_contentView offset:0];
+    [_tableView addConstraint:NSLayoutAttributeRight equalTo:_contentView offset:0];
+    [_tableView addConstraint:NSLayoutAttributeTop equalTo:_headView toAttribute:NSLayoutAttributeBottom offset:0];
+    [_tableView addConstraint:NSLayoutAttributeBottom equalTo:_contentView offset:0];
     
 }
 
@@ -190,12 +226,12 @@ YWTableExcelCellDelegate>
         for (YWColumnMode *model in _fixedColumnList) {
             totalWidth += model.width;
         }
-        [self addSubview:self.verticalView];
-        [self bringSubviewToFront:self.verticalView];
-        [_verticalView addConstraint:NSLayoutAttributeLeft equalTo:self offset:totalWidth - _widthOrHeight/2.0];
+        [_contentView addSubview:self.verticalView];
+        [_contentView bringSubviewToFront:self.verticalView];
+        [_verticalView addConstraint:NSLayoutAttributeLeft equalTo:_contentView offset:totalWidth - _widthOrHeight/2.0];
         [_verticalView addConstraint:NSLayoutAttributeWidth equalTo:nil offset:_widthOrHeight];
-        [_verticalView addConstraint:NSLayoutAttributeTop equalTo:self offset:0];
-        [_verticalView addConstraint:NSLayoutAttributeBottom equalTo:self offset:0];
+        [_verticalView addConstraint:NSLayoutAttributeTop equalTo:_headView offset:0];
+        [_verticalView addConstraint:NSLayoutAttributeBottom equalTo:_contentView offset:0];
         _isAddVerticalView = YES;
     }
 }
@@ -203,15 +239,15 @@ YWTableExcelCellDelegate>
     if (_isAddHorizontalView) {
         return;
     }
-    if (!_addverticalDivider) {
+    if (!_addHorizontalDivider) {
         return;
     }
-    [self addSubview:self.horizontalView];
-    [self bringSubviewToFront:self.horizontalView];
-    [_horizontalView addConstraint:NSLayoutAttributeLeft equalTo:self offset:0];
+    [_contentView addSubview:self.horizontalView];
+    [_contentView bringSubviewToFront:self.horizontalView];
+    [_horizontalView addConstraint:NSLayoutAttributeLeft equalTo:_contentView offset:0];
     [_horizontalView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:_widthOrHeight];
-    [_horizontalView addConstraint:NSLayoutAttributeTop equalTo:self offset:(_mode.defalutHeight - _widthOrHeight/2.0)];
-    [_horizontalView addConstraint:NSLayoutAttributeRight equalTo:self offset:0];
+    [_horizontalView addConstraint:NSLayoutAttributeTop equalTo:_headView offset:(_mode.defalutHeight - _widthOrHeight/2.0)];
+    [_horizontalView addConstraint:NSLayoutAttributeRight equalTo:_contentView offset:0];
     _isAddHorizontalView = YES;
 }
 
@@ -262,25 +298,21 @@ YWTableExcelCellDelegate>
 
 - (void)setDataSource:(id<YWTableExcelViewDataSource>)dataSource{
     _dataSource = dataSource;
-    _dataSourceHas.section = [dataSource respondsToSelector:@selector(numberOfSectionsInTableView:)];
+    _dataSourceHas.section = [dataSource respondsToSelector:@selector(numberOfSectionsInTableExcelView:)];
     _dataSourceHas.fixedCellForRowAtIndexPathForMode = [dataSource respondsToSelector:@selector(tableExcelView:fixedCellForRowAtIndexPath:)];
     _dataSourceHas.slideCellForRowAtIndexPathForMode = [dataSource respondsToSelector:@selector(tableExcelView:slideCellForRowAtIndexPath:)];
-    switch (_mode.style) {
-        case YWTableExcelViewStyleDefalut:
-            [self createUIHeadViewWithDefalut];
-            break;
-        case YWTableExcelViewStylePlain:
-            [self createUIHeadViewWithPlain];
-            break;
-        default:
-            break;
-    }
+    [self createUIHeadViewWithDefalut];
     [self addVerticalView];
     [self addHorizontalView];
 }
 - (void)setDelegate:(id<YWTableExcelViewDelegate>)delegate{
     _delegate = delegate;
     _delegateHas.didSelectColumnAtIndexPath = [delegate respondsToSelector:@selector(tableExcelView:didSelectColumnAtIndexPath:)];
+    _delegateHas.excelViewForHeaderInSectionMode = [delegate respondsToSelector:@selector(tableExcelView:modeForHeaderInSection:)];
+    _delegateHas.viewForHeaderInSection = [delegate respondsToSelector:@selector(tableExcelView:viewForHeaderInSection:)];
+    _delegateHas.heightForHeaderInSection = [delegate respondsToSelector:@selector(tableExcelView:heightForHeaderInSection:)];
+    
+    
 }
 - (void)setAddverticalDivider:(BOOL)addverticalDivider{
     _addverticalDivider = addverticalDivider;
@@ -298,6 +330,43 @@ YWTableExcelCellDelegate>
     if (_addverticalDivider) {
         self.verticalView.backgroundColor = dividerColor;
     }
+}
+- (void)setOutsideBorder:(UIColor *)outsideBorder{
+    _contentView.layer.borderColor = outsideBorder.CGColor;
+}
+- (void)setOutsideBorderWidth:(CGFloat)outsideBorderWidth{
+    _contentView.layer.borderWidth = outsideBorderWidth;
+}
+- (void)setTableHeaderView:(UIView *)tableHeaderView{
+    [_contentView.superview removeConstraint:_top];
+    [_contentView addConstraint:NSLayoutAttributeTop equalTo:self offset:CGRectGetHeight(tableHeaderView.frame)];
+    [self addSubview:tableHeaderView];
+    [tableHeaderView addConstraint:NSLayoutAttributeLeft equalTo:self offset:0];
+    [tableHeaderView addConstraint:NSLayoutAttributeRight equalTo:self offset:0];
+    [tableHeaderView addConstraint:NSLayoutAttributeTop equalTo:self offset:0];
+    [tableHeaderView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:CGRectGetHeight(tableHeaderView.frame)];
+    [self setNeedsLayout];
+}
+- (void)setTableFooterView:(UIView *)tableFooterView{
+    [_contentView.superview removeConstraint:_bottom];
+    [_contentView addConstraint:NSLayoutAttributeBottom equalTo:self offset:-(CGRectGetHeight(tableFooterView.frame))];
+    [self addSubview:tableFooterView];
+    [tableFooterView addConstraint:NSLayoutAttributeLeft equalTo:self offset:0];
+    [tableFooterView addConstraint:NSLayoutAttributeRight equalTo:self offset:0];
+    [tableFooterView addConstraint:NSLayoutAttributeBottom equalTo:self offset:0];
+    [tableFooterView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:CGRectGetHeight(tableFooterView.frame)];
+    [self setNeedsLayout];
+}
+
+- (void)layoutSubviews{
+    [super layoutSubviews];
+    
+}
+- (UIView *)contentView{
+    if (!_contentView) {
+        _contentView = [UIView new];
+    }
+    return _contentView;
 }
 - (UIView *)verticalView{
     if (!_verticalView) {

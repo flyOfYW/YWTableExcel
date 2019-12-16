@@ -1,5 +1,5 @@
 PODS:
-  - YWTableExcel (0.1.1)
+  - YWTableExcel (0.1.2)
 
 DEPENDENCIES:
   - YWTableExcel (from `../`)
@@ -9,7 +9,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  YWTableExcel: fcd22511b496ff9f60349e579f29d06fdd1313f3
+  YWTableExcel: 86662868f15b312705297e8d78c929f513507aca
 
 PODFILE CHECKSUM: b9861caf1433eaa2a149fb57758c6ce18001b9f9
 

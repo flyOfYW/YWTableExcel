@@ -17,15 +17,18 @@ typedef NS_ENUM(NSInteger, YWTableExcelViewCellSelectionStyle) {
     YWTableExcelViewCellSelectionStyleStyleNone,
     YWTableExcelViewCellSelectionStyleGray
 };
-
+typedef NS_ENUM(NSInteger, YWTableExcelViewHeaderInSectionMode) {
+    YWTableExcelViewHeaderInSectionModeNone,
+    YWTableExcelViewHeaderInSectionModeCustom,
+};
 @class YWTableExcelView;
 @protocol YWTableExcelViewDataSource<NSObject>
 @required
-///  组头或者表头（固定的列）
+///  固定的列
 /// @param excelView YWTableExcelView
 /// @param section 组
 - (nullable NSArray <YWColumnMode *>*)tableExcelView:(YWTableExcelView *)excelView titleForFixedHeaderInSection:(NSInteger)section;
-///  组头或者表头（可滑动的列）
+///  可滑动的列
 /// @param excelView YWTableExcelView
 /// @param section 组
 - (nullable NSArray <YWColumnMode *>*)tableExcelView:(YWTableExcelView *)excelView titleForSlideHeaderInSection:(NSInteger)section;
@@ -46,12 +49,23 @@ typedef NS_ENUM(NSInteger, YWTableExcelViewCellSelectionStyle) {
 /// @param excelView YWTableExcelView
 /// @param indexPath indexPath
 - (nullable NSArray <YWColumnMode *>*)tableExcelView:(YWTableExcelView *)excelView slideCellForRowAtIndexPath:(NSIndexPath *)indexPath;
-
 @end
 
 
 @protocol YWTableExcelViewDelegate <NSObject>
 @optional
+/// 组头
+/// YWTableExcelViewHeaderInSectionModeNone-没有组头  ｜YWTableExcelViewHeaderInSectionModeCustom-自定义
+/// @param excelView YWTableExcelView
+- (YWTableExcelViewHeaderInSectionMode)tableExcelView:(YWTableExcelView *)excelView modeForHeaderInSection:(NSInteger)section;
+/// 组头视图
+/// @param excelView excelView
+/// @param section 某组
+- (UIView *)tableExcelView:(YWTableExcelView *)excelView viewForHeaderInSection:(NSInteger)section;
+/// 组头视图的高度
+/// @param excelView excelView
+/// @param section 某组
+- (CGFloat )tableExcelView:(YWTableExcelView *)excelView heightForHeaderInSection:(NSInteger)section;
 /// 点击单元格的回调
 /// @param tableView YWTableExcelView
 /// @param indexPath indexPath(section-组|row-行|colunmn-列)
@@ -77,6 +91,14 @@ typedef NS_ENUM(NSInteger, YWTableExcelViewCellSelectionStyle) {
 @property (nonatomic, assign, getter=isAddSlidingAreaDivider) BOOL addverticalDivider;
 /**是否添加滑动区域分割线*/
 @property (nonatomic, assign, getter=isAddSlidingAreaDivider) BOOL addHorizontalDivider;
+/**标题栏 只需要设置frame的height*/
+@property (nonatomic, strong, nullable) UIView *tableHeaderView;
+/**表尾栏  只需要设置frame的height**/
+@property (nonatomic, strong, nullable) UIView *tableFooterView;
+/**contentView outside border*/
+@property (nonatomic, strong, nullable) UIColor *outsideBorder;
+/**contentView outside border width*/
+@property (nonatomic, assign) CGFloat outsideBorderWidth;
 
 
 
@@ -94,6 +116,11 @@ typedef NS_ENUM(NSInteger, YWTableExcelViewCellSelectionStyle) {
 - (void)reloadContentData;
 /// 刷新整个表
 - (void)reloadData;
+/// 选中某一行
+/// @param indexPath indexPath
+/// @param animated animated
+/// @param scrollPosition scrollPosition
+- (void)selectRowAtIndexPath:(nullable NSIndexPath *)indexPath animated:(BOOL)animated scrollPosition:(UITableViewScrollPosition)scrollPosition;
 @end
 
 NS_ASSUME_NONNULL_END

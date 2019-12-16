@@ -47,7 +47,6 @@
     
     YWTableExcelViewMode *mode = [YWTableExcelViewMode new];
     mode.columnStyle = YWTableExcelViewColumnStyleBtn;
-    mode.style = YWTableExcelViewStylePlain;
     
     _excelView = [[YWTableExcelView alloc] initWithFrame:CGRectMake(10, 80, CGRectGetWidth(self.view.frame) - 20, 200) withMode:mode];
     _excelView.delegate = self;

@@ -1,15 +1,15 @@
 //
-//  YWDemo1.m
+//  YWDemo3.m
 //  YWTableExcel_Example
 //
 //  Created by Mr.Yao on 2019/12/13.
 //  Copyright © 2019 flyOfYW. All rights reserved.
 //
 
-#import "YWDemo1.h"
+#import "YWDemo3.h"
 #import <YWTableExcel/YWTableExcelView.h>
 
-@interface YWDemo1 ()<YWTableExcelViewDataSource,YWTableExcelViewDelegate>
+@interface YWDemo3 ()<YWTableExcelViewDataSource,YWTableExcelViewDelegate>
 @property (nonatomic, strong) YWTableExcelView *excelView;
 @property (nonatomic, strong) NSMutableArray <YWColumnMode *> *fixedColumnList;
 @property (nonatomic, strong) NSMutableArray <YWColumnMode *> *slideColumnList;
@@ -17,7 +17,7 @@
 @property (nonatomic, strong) NSMutableArray  *slideList;
 @end
 
-@implementation YWDemo1
+@implementation YWDemo3
 
 - (void)viewDidLoad{
     [super viewDidLoad];
@@ -67,23 +67,37 @@
     
     YWTableExcelViewMode *mode = [YWTableExcelViewMode new];
     mode.columnStyle = YWTableExcelViewColumnStyleText;
+    mode.sectionStyle = YWTableExcelViewSectionStyleGrouped;
     _excelView = [[YWTableExcelView alloc] initWithFrame:CGRectZero withMode:mode];
     _excelView.delegate = self;
     _excelView.dataSource = self;
-    _excelView.addverticalDivider = YES;
     _excelView.addHorizontalDivider = YES;
     _excelView.dividerColor = [UIColor redColor];
-    _excelView.layer.borderWidth = 1;
-    _excelView.selectionStyle = YWTableExcelViewCellSelectionStyleGray;
     [self.view addSubview:_excelView];
-            
+        
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+    titleLabel.textColor = [UIColor redColor];
+    titleLabel.textAlignment = NSTextAlignmentCenter;
+    titleLabel.text = @"各个科目";
+    _excelView.tableHeaderView = titleLabel;
+    
+    UILabel *footLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+    footLabel.textColor = [UIColor redColor];
+    footLabel.textAlignment = NSTextAlignmentCenter;
+    footLabel.text = @"表一";
+    _excelView.tableFooterView = footLabel;
+    
+    _excelView.outsideBorderWidth = 1;
+    _excelView.outsideBorder = [UIColor redColor];
+    
     [_excelView addConstraint:NSLayoutAttributeLeft equalTo:self.view offset:10];
     [_excelView addConstraint:NSLayoutAttributeTop equalTo:self.view offset:80];
     [_excelView addConstraint:NSLayoutAttributeRight equalTo:self.view offset:-10];
-    [_excelView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:300];
+    [_excelView addConstraint:NSLayoutAttributeBottom equalTo:self.view offset:-40];
 
-    //默认选中第一行
-    [_excelView selectRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
+}
+- (NSInteger)numberOfSectionsInTableExcelView:(YWTableExcelView *)excelView{
+    return 2;
 }
 - (NSArray<YWColumnMode *> *)tableExcelView:(YWTableExcelView *)excelView titleForFixedHeaderInSection:(NSInteger)section{
     return _fixedColumnList;
@@ -92,13 +106,25 @@
     return _slideColumnList;
 }
 - (NSInteger)tableExcelView:(YWTableExcelView *)excelView numberOfRowsInSection:(NSInteger)section{
-    return 20;
+    return 8;
 }
 - (NSArray<YWColumnMode *> *)tableExcelView:(YWTableExcelView *)excelView fixedCellForRowAtIndexPath:(NSIndexPath *)indexPath{
     return _fixedList[indexPath.row];
 }
 - (NSArray<YWColumnMode *> *)tableExcelView:(YWTableExcelView *)excelView slideCellForRowAtIndexPath:(NSIndexPath *)indexPath{
     return _slideList[indexPath.row];
+}
+- (YWTableExcelViewHeaderInSectionMode)tableExcelView:(YWTableExcelView *)excelView modeForHeaderInSection:(NSInteger)section{
+    return YWTableExcelViewHeaderInSectionModeCustom;
+}
+- (UIView *)tableExcelView:(YWTableExcelView *)excelView viewForHeaderInSection:(NSInteger)section{
+    UILabel *sectionView = [UILabel new];
+    sectionView.text = [NSString stringWithFormat:@" 学校五年%zi班成绩",section];
+    sectionView.backgroundColor = [UIColor whiteColor];
+    return sectionView;
+}
+- (CGFloat)tableExcelView:(YWTableExcelView *)excelView heightForHeaderInSection:(NSInteger)section{
+    return 30.f;
 }
 - (void)dealloc{
     NSLog(@"%s",__func__);

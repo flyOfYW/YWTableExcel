@@ -22,6 +22,7 @@
 		6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5B8195388D20070C39A /* InfoPlist.strings */; };
 		6003F5BC195388D20070C39A /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5BB195388D20070C39A /* Tests.m */; };
 		71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */; };
+		7B72E3E423A78B2A00171515 /* YWDemo3.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B72E3E323A78B2A00171515 /* YWDemo3.m */; };
 		7BF1C7EB23A37BA4002EA0BA /* YWDemo1.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BF1C7EA23A37BA4002EA0BA /* YWDemo1.m */; };
 		7BF1C7EE23A37C8B002EA0BA /* YWDemo2.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BF1C7ED23A37C8B002EA0BA /* YWDemo2.m */; };
 		7CC8A5C94AB03F12BAE2F205 /* Pods_YWTableExcel_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0991C560A98247A82491818E /* Pods_YWTableExcel_Example.framework */; };
@@ -63,6 +64,8 @@
 		6003F5BB195388D20070C39A /* Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Tests.m; sourceTree = "<group>"; };
 		606FC2411953D9B200FFA9A0 /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
 		71719F9E1E33DC2100824A3D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		7B72E3E223A78B2A00171515 /* YWDemo3.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YWDemo3.h; sourceTree = "<group>"; };
+		7B72E3E323A78B2A00171515 /* YWDemo3.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YWDemo3.m; sourceTree = "<group>"; };
 		7BF1C7E923A37BA4002EA0BA /* YWDemo1.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YWDemo1.h; sourceTree = "<group>"; };
 		7BF1C7EA23A37BA4002EA0BA /* YWDemo1.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YWDemo1.m; sourceTree = "<group>"; };
 		7BF1C7EC23A37C8B002EA0BA /* YWDemo2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YWDemo2.h; sourceTree = "<group>"; };
@@ -158,6 +161,8 @@
 				7BF1C7EA23A37BA4002EA0BA /* YWDemo1.m */,
 				7BF1C7EC23A37C8B002EA0BA /* YWDemo2.h */,
 				7BF1C7ED23A37C8B002EA0BA /* YWDemo2.m */,
+				7B72E3E223A78B2A00171515 /* YWDemo3.h */,
+				7B72E3E323A78B2A00171515 /* YWDemo3.m */,
 				71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */,
 				6003F5A8195388D20070C39A /* Images.xcassets */,
 				6003F594195388D20070C39A /* Supporting Files */,
@@ -379,6 +384,7 @@
 			files = (
 				6003F59E195388D20070C39A /* YWAppDelegate.m in Sources */,
 				7BF1C7EE23A37C8B002EA0BA /* YWDemo2.m in Sources */,
+				7B72E3E423A78B2A00171515 /* YWDemo3.m in Sources */,
 				6003F5A7195388D20070C39A /* YWViewController.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
 				7BF1C7EB23A37BA4002EA0BA /* YWDemo1.m in Sources */,

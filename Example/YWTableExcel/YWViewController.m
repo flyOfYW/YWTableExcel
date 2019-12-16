@@ -9,6 +9,7 @@
 #import "YWViewController.h"
 #import "YWDemo1.h"
 #import "YWDemo2.h"
+#import "YWDemo3.h"
 
 @interface YWViewController ()
 
@@ -25,11 +26,18 @@
     YWDemo2 *ctr = [YWDemo2 new];
     [self.navigationController pushViewController:ctr animated:YES];
 }
+- (IBAction)sectionAction:(id)sender {
+    YWDemo3 *ctr = [YWDemo3 new];
+     [self.navigationController pushViewController:ctr animated:YES];
+}
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+- (void)viewDidLoad{
+    NSLog(@"viewDidLoad");
 }
 
 @end

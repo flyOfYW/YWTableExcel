@@ -23,7 +23,6 @@
 - (instancetype)init{
     self = [super init];
     if (self) {
-        _backgroundColor = [UIColor whiteColor];
         _textColor = [UIColor darkGrayColor];
     }
     return self;

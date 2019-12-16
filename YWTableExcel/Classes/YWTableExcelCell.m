@@ -69,7 +69,6 @@ NSString *const YW_EXCEL_NOTIFI_KEY = @"YWCellOffX";;
         _fixedColumn = fixedColumn;
         [self prepareInitFixed:fixedColumn slide:slideColumn];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(scrollMove:) name:_config.notifiKey object:nil];
-        self.selected = YES;
     }
     return self;
 }
@@ -207,8 +206,8 @@ NSString *const YW_EXCEL_NOTIFI_KEY = @"YWCellOffX";;
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
         _collectionView.showsHorizontalScrollIndicator = NO;
-        _collectionView.backgroundColor = self.backgroundColor;
         _collectionView.bounces = NO;
+        _collectionView.backgroundColor = self.contentView.backgroundColor;
         [_collectionView registerClass:[YWTableExcelViewColl class] forCellWithReuseIdentifier:@"YWTableExcelViewColl"];
         [self.contentView addSubview:_collectionView];
         if (currentLabel == nil) {

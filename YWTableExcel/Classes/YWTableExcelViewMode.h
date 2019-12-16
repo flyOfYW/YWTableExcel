@@ -10,24 +10,24 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSInteger, YWTableExcelViewStyle) {
-    /**整体表格滑动，上下、左右均可滑动（固定n列不滑动以及组头不滑动）*/
-    YWTableExcelViewStyleDefalut = 0,
-    /**整体表格滑动，上下、左右均可滑动（组头不滑动）*/
-    YWTableExcelViewStylePlain,
-};
+
 typedef NS_ENUM(NSInteger, YWTableExcelViewColumnStyle) {
     YWTableExcelViewColumnStyleText = 0,//纯文本显示
     YWTableExcelViewColumnStyleBtn,//每个单元格均可点击
 };
+typedef NS_ENUM(NSInteger, YWTableExcelViewSectionStyle) {
+    YWTableExcelViewSectionStylePlain,          // regular table view
+    YWTableExcelViewSectionStyleGrouped,        // sections are grouped together
+    YWTableExcelViewSectionStyleInsetGrouped  API_AVAILABLE(ios(13.0)) API_UNAVAILABLE(tvos)  // 暂不支持
+};
 
 @interface YWColumnMode : NSObject
 /** 标题*/
-@property (nonatomic, copy) NSString *text;
+@property (nonatomic, copy,nullable) NSString *text;
 /**列的宽度*/
 @property (nonatomic, assign) CGFloat width;
 /**背景颜色*/
-@property (nonatomic, strong) UIColor *backgroundColor;
+@property (nonatomic, strong,nullable) UIColor *backgroundColor;
 /**文字颜色*/
 @property (nonatomic, strong) UIColor *textColor;
 
@@ -36,8 +36,6 @@ typedef NS_ENUM(NSInteger, YWTableExcelViewColumnStyle) {
 
 __attribute__((objc_subclassing_restricted))
 @interface YWTableExcelViewMode : NSObject
-/**模式*/
-@property (nonatomic,assign) YWTableExcelViewStyle style;
 /**列的显示模式*/
 @property (nonatomic,assign) YWTableExcelViewColumnStyle columnStyle;
 /**默认头部的高度*/
@@ -46,6 +44,8 @@ __attribute__((objc_subclassing_restricted))
 @property (nonatomic,assign) CGFloat columnBorderWidth;
 /**单元格的边框颜色*/
 @property (nonatomic,strong, nullable) UIColor *columnBorderColor;
+/**组样式*/
+@property (nonatomic,assign) YWTableExcelViewSectionStyle sectionStyle;
 
 
 @end
@@ -59,7 +59,7 @@ __attribute__((objc_subclassing_restricted))
 /**单元格的边框宽度*/
 @property (nonatomic,assign) CGFloat columnBorderWidth;
 /**单元格的边框颜色*/
-@property (nonatomic,strong) UIColor *columnBorderColor;
+@property (nonatomic,strong,nullable) UIColor *columnBorderColor;
 
 @end
 
