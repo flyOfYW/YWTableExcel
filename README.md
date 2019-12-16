@@ -5,6 +5,8 @@
 [![License](https://img.shields.io/cocoapods/l/YWTableExcel.svg?style=flat)](https://cocoapods.org/pods/YWTableExcel)
 [![Platform](https://img.shields.io/cocoapods/p/YWTableExcel.svg?style=flat)](https://cocoapods.org/pods/YWTableExcel)
 
+采用UITableView和UICollectionView嵌套使用来实现Excel、课程表、上下左右联动效果
+
 ## Example
 ```
 - (void)viewDidLoad{
