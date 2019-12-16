@@ -67,12 +67,14 @@
     
     YWTableExcelViewMode *mode = [YWTableExcelViewMode new];
     mode.columnStyle = YWTableExcelViewColumnStyleText;
+    mode.columnBorderWidth = 0.8;
+    mode.columnBorderColor = [UIColor grayColor];
     _excelView = [[YWTableExcelView alloc] initWithFrame:CGRectZero withMode:mode];
     _excelView.delegate = self;
     _excelView.dataSource = self;
     _excelView.addverticalDivider = YES;
     _excelView.addHorizontalDivider = YES;
-    _excelView.layer.borderWidth = 1;
+    _excelView.dividerColor = [UIColor redColor];
     [self.view addSubview:_excelView];
     
     [_excelView addConstraint:NSLayoutAttributeLeft equalTo:self.view offset:10];

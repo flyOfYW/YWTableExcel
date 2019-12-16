@@ -19,8 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) YWColumnMode * mode;
 
 
-- (void)addConstraint:(NSLayoutAttribute)attribute equalTo:(UIView *)to offset:(CGFloat)offset;
-- (void)addConstraint:(NSLayoutAttribute)attribute equalTo:(UIView *)to toAttribute:(NSLayoutAttribute)toAttribute offset:(CGFloat)offset;
+- (void)addConstraint:(NSLayoutAttribute)attribute equalTo:(nullable UIView *)to offset:(CGFloat)offset;
+- (void)addConstraint:(NSLayoutAttribute)attribute equalTo:(nullable UIView *)to toAttribute:(NSLayoutAttribute)toAttribute offset:(CGFloat)offset;
 @end
 
 

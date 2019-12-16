@@ -4,7 +4,7 @@ platform :ios, '8.0'
 
 target 'YWTableExcel_Example' do
   pod 'YWTableExcel', :path => '../'
-
+#  pod 'MLeaksFinder'
   target 'YWTableExcel_Tests' do
     inherit! :search_paths
 

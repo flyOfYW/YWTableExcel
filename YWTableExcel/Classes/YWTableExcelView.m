@@ -77,6 +77,7 @@ YWTableExcelCellDelegate>
         cell.selectionStyle = _selectionStyle == 0 ? UITableViewCellSelectionStyleNone : UITableViewCellSelectionStyleDefault;
         cell.selection = _selectionStyle == 0 ? NO : YES;
         cell.delegate = self;
+        cell.contentView.backgroundColor = self.backgroundColor;
     }
     _excelCell = cell;
     __weak typeof(self)weakSelf = self;
@@ -102,11 +103,14 @@ YWTableExcelCellDelegate>
         [_delegate tableExcelView:self didSelectColumnAtIndexPath:indexPath];
     }
 }
+//MARK: ----------- init -----------
 - (instancetype)initWithFrame:(CGRect)frame withMode:(YWTableExcelViewMode *)mode{
     self = [super initWithFrame:frame];
     if (self) {
         _mode = mode;
         _list = @[].mutableCopy;
+        _dividerColor = [UIColor redColor];
+        _widthOrHeight = 2;
         [self prepareInit:mode];
     }
     return self;
@@ -119,6 +123,8 @@ YWTableExcelCellDelegate>
     _cellConfig = [YWExcelCellConfig new];
     _cellConfig.columnStyle = mode.columnStyle;
     _cellConfig.notifiKey = _NotificationID;
+    _cellConfig.columnBorderColor = mode.columnBorderColor;
+    _cellConfig.columnBorderWidth = mode.columnBorderWidth;
     switch (mode.style) {
         case YWTableExcelViewStyleDefalut:
             [self createUIWithDefalut];
@@ -137,6 +143,7 @@ YWTableExcelCellDelegate>
     _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _headView = [[YWTableExcelViewHeaderView alloc] initWithReuseIdentifier:nil cellConfig:_cellConfig];
+    _headView.contentView.backgroundColor = self.backgroundColor;
     [self addSubview:_headView];
     _tableView.rowHeight = _mode.defalutHeight;
     _tableView.dataSource = self;
@@ -185,8 +192,8 @@ YWTableExcelCellDelegate>
         }
         [self addSubview:self.verticalView];
         [self bringSubviewToFront:self.verticalView];
-        [_verticalView addConstraint:NSLayoutAttributeLeft equalTo:self offset:totalWidth - 1];
-        [_verticalView addConstraint:NSLayoutAttributeWidth equalTo:nil offset:2];
+        [_verticalView addConstraint:NSLayoutAttributeLeft equalTo:self offset:totalWidth - _widthOrHeight/2.0];
+        [_verticalView addConstraint:NSLayoutAttributeWidth equalTo:nil offset:_widthOrHeight];
         [_verticalView addConstraint:NSLayoutAttributeTop equalTo:self offset:0];
         [_verticalView addConstraint:NSLayoutAttributeBottom equalTo:self offset:0];
         _isAddVerticalView = YES;
@@ -202,8 +209,8 @@ YWTableExcelCellDelegate>
     [self addSubview:self.horizontalView];
     [self bringSubviewToFront:self.horizontalView];
     [_horizontalView addConstraint:NSLayoutAttributeLeft equalTo:self offset:0];
-    [_horizontalView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:2];
-    [_horizontalView addConstraint:NSLayoutAttributeTop equalTo:self offset:(_mode.defalutHeight - 1)];
+    [_horizontalView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:_widthOrHeight];
+    [_horizontalView addConstraint:NSLayoutAttributeTop equalTo:self offset:(_mode.defalutHeight - _widthOrHeight/2.0)];
     [_horizontalView addConstraint:NSLayoutAttributeRight equalTo:self offset:0];
     _isAddHorizontalView = YES;
 }
@@ -250,6 +257,9 @@ YWTableExcelCellDelegate>
     }
     return 0;
 }
+
+//MARK:-------- getter && setter ---------------
+
 - (void)setDataSource:(id<YWTableExcelViewDataSource>)dataSource{
     _dataSource = dataSource;
     _dataSourceHas.section = [dataSource respondsToSelector:@selector(numberOfSectionsInTableView:)];
@@ -280,18 +290,26 @@ YWTableExcelCellDelegate>
     _addHorizontalDivider = addHorizontalDivider;
     [self addHorizontalView];
 }
-
+- (void)setDividerColor:(UIColor *)dividerColor{
+    _dividerColor = dividerColor;
+    if (_addHorizontalDivider) {
+        self.horizontalView.backgroundColor = dividerColor;
+    }
+    if (_addverticalDivider) {
+        self.verticalView.backgroundColor = dividerColor;
+    }
+}
 - (UIView *)verticalView{
     if (!_verticalView) {
         _verticalView = [UIView new];
-        _verticalView.backgroundColor = [UIColor redColor];
+        _verticalView.backgroundColor = _dividerColor;
     }
     return _verticalView;
 }
 - (UIView *)horizontalView{
     if (!_horizontalView) {
         _horizontalView = [UIView new];
-        _horizontalView.backgroundColor = [UIColor redColor];
+        _horizontalView.backgroundColor = _dividerColor;
     }
     return _horizontalView;
 }

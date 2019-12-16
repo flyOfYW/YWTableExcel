@@ -52,6 +52,9 @@ typedef NS_ENUM(NSInteger, YWTableExcelViewCellSelectionStyle) {
 
 @protocol YWTableExcelViewDelegate <NSObject>
 @optional
+/// 点击单元格的回调
+/// @param tableView YWTableExcelView
+/// @param indexPath indexPath(section-组|row-行|colunmn-列)
 - (void)tableExcelView:(YWTableExcelView *)tableView didSelectColumnAtIndexPath:(NSIndexPath *)indexPath;
 
 @end
@@ -66,6 +69,10 @@ typedef NS_ENUM(NSInteger, YWTableExcelViewCellSelectionStyle) {
 @property (nonatomic, weak, nullable) id <YWTableExcelViewDataSource>dataSource;
 /** 委托 */
 @property (nonatomic, weak, nullable) id <YWTableExcelViewDelegate>delegate;
+/**分割线的颜色*/
+@property (nonatomic, strong) UIColor *dividerColor;
+/**分割线的宽或者高*/
+@property (nonatomic, assign) CGFloat widthOrHeight;
 /**是否添加滑动区域分割线*/
 @property (nonatomic, assign, getter=isAddSlidingAreaDivider) BOOL addverticalDivider;
 /**是否添加滑动区域分割线*/
@@ -77,6 +84,9 @@ typedef NS_ENUM(NSInteger, YWTableExcelViewCellSelectionStyle) {
 
 - (instancetype)initWithFrame:(CGRect)frame NS_UNAVAILABLE;
 
+/// 构造方法
+/// @param frame frame
+/// @param mode mode
 - (instancetype)initWithFrame:(CGRect)frame withMode:(YWTableExcelViewMode *)mode;
 /// 刷新头部
 - (void)reloadHeadData;

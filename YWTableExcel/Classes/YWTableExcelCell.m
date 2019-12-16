@@ -19,11 +19,11 @@ NSString *const YW_EXCEL_NOTIFI_KEY = @"YWCellOffX";;
 <UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 {
     YWExcelCellConfig *_config;
-    NSArray *_slideColumn;
+    NSArray *_slideColumn;//原始数据，初始化UI
     NSArray *_fixedColumn;
     
     NSArray *_slideData;
-
+    
     BOOL _canColumn;
     
     BOOL _isAllowedNotification;
@@ -34,7 +34,45 @@ NSString *const YW_EXCEL_NOTIFI_KEY = @"YWCellOffX";;
 @end
 
 @implementation YWTableExcelCell
+//MARK: ----------- public -----------
+- (void)reloadFixed:(NSArray <YWColumnMode *>*)fixedColumn
+              slide:(NSArray <YWColumnMode *>*)slideColumn{
+    _slideData = slideColumn;
+    _canColumn = YES;
+    if (slideColumn.count == 0) {
+        _canColumn = NO;
+        _slideData = _slideColumn;
+    }
+    [_collectionView reloadData];
+    for (int i = 0 ; i < _fixedColumn.count; i ++) {
+        YWColumnMode *columnModel = fixedColumn[i];
+        if (_config.columnStyle == YWTableExcelViewColumnStyleText) {
+            UILabel *label = [self.contentView viewWithTag:100 + i];
+            label.text = columnModel.text;
+        }else{
+            UIButton *btn = [self.contentView viewWithTag:100 + i];
+            [btn setTitle:columnModel.text forState:UIControlStateNormal];
+        }
+    }
+}
 
+- (instancetype)initWithStyle:(UITableViewCellStyle)style
+              reuseIdentifier:(NSString *)reuseIdentifier
+                        fixed:(NSArray <YWColumnMode *>*)fixedColumn
+                        slide:(NSArray <YWColumnMode *>*)slideColumn
+                   cellConfig:(YWExcelCellConfig *)config{
+    
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
+        _config = config;
+        _slideColumn = slideColumn;
+        _fixedColumn = fixedColumn;
+        [self prepareInitFixed:fixedColumn slide:slideColumn];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(scrollMove:) name:_config.notifiKey object:nil];
+        self.selected = YES;
+    }
+    return self;
+}
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
@@ -50,12 +88,19 @@ NSString *const YW_EXCEL_NOTIFI_KEY = @"YWCellOffX";;
 }
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     YWTableExcelViewColl *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"YWTableExcelViewColl" forIndexPath:indexPath];
-    if (_canColumn) {
+    cell.menuLabel.layer.borderWidth = _config.columnBorderWidth;
+    cell.menuLabel.layer.borderColor = _config.columnBorderColor.CGColor;
+    if (indexPath.row < _slideData.count) {
         YWColumnMode *model = _slideData[indexPath.row];
-        cell.menuLabel.text = model.text;
-    }else{
-        cell.menuLabel.text = @"";
+        cell.contentView.backgroundColor = model.backgroundColor;
+        cell.menuLabel.textColor = model.textColor;
+        if (_canColumn) {
+            cell.menuLabel.text = model.text;
+        }else{
+            cell.menuLabel.text = @"";
+        }
     }
+    
     return cell;
 }
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
@@ -111,45 +156,8 @@ NSString *const YW_EXCEL_NOTIFI_KEY = @"YWCellOffX";;
     obj = nil;
 }
 
-- (void)reloadFixed:(NSArray <YWColumnMode *>*)fixedColumn
-              slide:(NSArray <YWColumnMode *>*)slideColumn{
-    _slideData = slideColumn;
-    _canColumn = YES;
-    if (slideColumn.count == 0) {
-        _canColumn = NO;
-        _slideData = _slideColumn;
-    }
-    [_collectionView reloadData];
-    for (int i = 0 ; i < _fixedColumn.count; i ++) {
-        YWColumnMode *columnModel = fixedColumn[i];
-        if (_config.columnStyle == YWTableExcelViewColumnStyleText) {
-            UILabel *label = [self.contentView viewWithTag:100 + i];
-            label.text = columnModel.text;
-        }else{
-            UIButton *btn = [self.contentView viewWithTag:100 + i];
-            [btn setTitle:columnModel.text forState:UIControlStateNormal];
-        }
-    }
-}
-- (instancetype)initWithStyle:(UITableViewCellStyle)style
-              reuseIdentifier:(NSString *)reuseIdentifier
-                        fixed:(NSArray <YWColumnMode *>*)fixedColumn
-                        slide:(NSArray <YWColumnMode *>*)slideColumn
-                   cellConfig:(YWExcelCellConfig *)config{
-    
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if (self) {
-        _config = config;
-        _slideColumn = slideColumn;
-        _fixedColumn = fixedColumn;
-        [self prepareInitFixed:fixedColumn slide:slideColumn];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(scrollMove:) name:_config.notifiKey object:nil];
-        self.selected = YES;
-    }
-    return self;
-}
+//MARK: ----------- private -----------
 - (void)prepareInitFixed:(NSArray <YWColumnMode *>*)fixedColumnList slide:(NSArray <YWColumnMode *>*)slideColumnList{
-    
     UIView *currentLabel = nil;
     NSInteger index = 0;
     for (YWColumnMode *column in fixedColumnList) {
@@ -158,17 +166,21 @@ NSString *const YW_EXCEL_NOTIFI_KEY = @"YWCellOffX";;
             UILabel *lbl = [UILabel new];
             lbl.font = [UIFont systemFontOfSize:14];
             lbl.textAlignment = NSTextAlignmentCenter;
+            lbl.textColor = column.textColor;
             lbl.tag = 100 + index;
             titleLbl = lbl;
         }else{
             UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
             btn.titleLabel.font = [UIFont systemFontOfSize:14];
-            [btn setTitleColor:[UIColor darkTextColor] forState:UIControlStateNormal];
+            [btn setTitleColor:column.textColor forState:UIControlStateNormal];
             btn.mode = column;
             btn.tag = 100 + index;
             [btn addTarget:self action:@selector(clickColumn:) forControlEvents:UIControlEventTouchUpInside];
             titleLbl = btn;
         }
+        titleLbl.backgroundColor = column.backgroundColor;
+        titleLbl.layer.borderWidth = _config.columnBorderWidth;;
+        titleLbl.layer.borderColor = _config.columnBorderColor.CGColor;
         [self.contentView addSubview:titleLbl];
         if (currentLabel == nil) {
             [titleLbl addConstraint:NSLayoutAttributeLeft equalTo:self.contentView offset:0];
@@ -195,7 +207,7 @@ NSString *const YW_EXCEL_NOTIFI_KEY = @"YWCellOffX";;
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
         _collectionView.showsHorizontalScrollIndicator = NO;
-        _collectionView.backgroundColor = [UIColor whiteColor];
+        _collectionView.backgroundColor = self.backgroundColor;
         _collectionView.bounces = NO;
         [_collectionView registerClass:[YWTableExcelViewColl class] forCellWithReuseIdentifier:@"YWTableExcelViewColl"];
         [self.contentView addSubview:_collectionView];

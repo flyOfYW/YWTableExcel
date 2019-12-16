@@ -26,17 +26,27 @@ typedef NS_ENUM(NSInteger, YWTableExcelViewColumnStyle) {
 @property (nonatomic, copy) NSString *text;
 /**列的宽度*/
 @property (nonatomic, assign) CGFloat width;
+/**背景颜色*/
+@property (nonatomic, strong) UIColor *backgroundColor;
+/**文字颜色*/
+@property (nonatomic, strong) UIColor *textColor;
+
 
 @end
 
 __attribute__((objc_subclassing_restricted))
 @interface YWTableExcelViewMode : NSObject
-///模式
+/**模式*/
 @property (nonatomic,assign) YWTableExcelViewStyle style;
-///列的显示模式
+/**列的显示模式*/
 @property (nonatomic,assign) YWTableExcelViewColumnStyle columnStyle;
-///默认头部的高度
+/**默认头部的高度*/
 @property (nonatomic,assign) CGFloat defalutHeight;
+/**单元格的边框宽度，建议0.8*/
+@property (nonatomic,assign) CGFloat columnBorderWidth;
+/**单元格的边框颜色*/
+@property (nonatomic,strong, nullable) UIColor *columnBorderColor;
+
 
 @end
 
@@ -46,6 +56,10 @@ __attribute__((objc_subclassing_restricted))
 @property (nonatomic,  copy) NSString *notifiKey;
 
 @property (nonatomic,assign) YWTableExcelViewColumnStyle columnStyle;
+/**单元格的边框宽度*/
+@property (nonatomic,assign) CGFloat columnBorderWidth;
+/**单元格的边框颜色*/
+@property (nonatomic,strong) UIColor *columnBorderColor;
 
 @end
 

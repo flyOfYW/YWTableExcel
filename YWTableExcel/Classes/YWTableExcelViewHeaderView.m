@@ -51,10 +51,13 @@
 }
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     YWTableExcelViewColl *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"defalutHeadCell" forIndexPath:indexPath];
+    cell.menuLabel.layer.borderWidth = _config.columnBorderWidth;
+    cell.menuLabel.layer.borderColor = _config.columnBorderColor.CGColor;
     if (indexPath.row < _slideColumn.count) {
         YWColumnMode *columnModel = _slideColumn[indexPath.row];
+        cell.contentView.backgroundColor = columnModel.backgroundColor;
+        cell.menuLabel.textColor = columnModel.textColor;
         cell.menuLabel.text = columnModel.text;
-
     }
     return cell;
 }
@@ -126,7 +129,7 @@
 }
 
 - (void)prepareInitFixed:(NSArray <YWColumnMode *>*)fixedColumnList slide:(NSArray <YWColumnMode *>*)slideColumnList{
-    
+    CGFloat padding = 0;
     UIView *currentLabel = nil;
     NSInteger index = 0;
     for (YWColumnMode *column in fixedColumnList) {
@@ -136,28 +139,32 @@
             lbl.text = column.text;
             lbl.font = [UIFont systemFontOfSize:14];
             lbl.textAlignment = NSTextAlignmentCenter;
+            lbl.textColor = column.textColor;
             lbl.tag = 100 + index;
             titleLbl = lbl;
         }else{
             UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
             btn.titleLabel.font = [UIFont systemFontOfSize:14];
-            [btn setTitleColor:[UIColor darkTextColor] forState:UIControlStateNormal];
+            [btn setTitleColor:column.textColor forState:UIControlStateNormal];
             btn.mode = column;
             [btn setTitle:column.text forState:UIControlStateNormal];
             btn.tag = 100 + index;
             titleLbl = btn;
         }
+        titleLbl.backgroundColor = column.backgroundColor;
+        titleLbl.layer.borderColor = _config.columnBorderColor.CGColor;
+        titleLbl.layer.borderWidth = _config.columnBorderWidth;
         [self addSubview:titleLbl];
         if (currentLabel == nil) {
-            [titleLbl addConstraint:NSLayoutAttributeLeft equalTo:self offset:0];
-            [titleLbl addConstraint:NSLayoutAttributeTop equalTo:self offset:0];
+            [titleLbl addConstraint:NSLayoutAttributeLeft equalTo:self offset:padding];
+            [titleLbl addConstraint:NSLayoutAttributeTop equalTo:self offset:padding];
             [titleLbl addConstraint:NSLayoutAttributeWidth equalTo:nil offset:column.width];
-            [titleLbl addConstraint:NSLayoutAttributeBottom equalTo:self offset:0];
+            [titleLbl addConstraint:NSLayoutAttributeBottom equalTo:self offset:-padding];
         }else{
-            [titleLbl addConstraint:NSLayoutAttributeLeft equalTo:currentLabel toAttribute:NSLayoutAttributeRight offset:0];
-            [titleLbl addConstraint:NSLayoutAttributeTop equalTo:self offset:0];
+            [titleLbl addConstraint:NSLayoutAttributeLeft equalTo:currentLabel toAttribute:NSLayoutAttributeRight offset:padding];
+            [titleLbl addConstraint:NSLayoutAttributeTop equalTo:self offset:padding];
             [titleLbl addConstraint:NSLayoutAttributeWidth equalTo:nil offset:column.width];
-            [titleLbl addConstraint:NSLayoutAttributeBottom equalTo:self offset:0];
+            [titleLbl addConstraint:NSLayoutAttributeBottom equalTo:self offset:-padding];
         }
         currentLabel = titleLbl;
         index += 1;
@@ -166,25 +173,25 @@
         YWColumnMode *column = slideColumnList.firstObject;
         UICollectionViewFlowLayout *layout = [UICollectionViewFlowLayout new];
         layout.itemSize = CGSizeMake(column.width, 40);
-        layout.minimumInteritemSpacing = 0;
-        layout.minimumLineSpacing = 0;
+        layout.minimumInteritemSpacing = padding;
+        layout.minimumLineSpacing = padding;
         [layout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
-        _collectionView.backgroundColor = [UIColor whiteColor];
+        _collectionView.backgroundColor = self.backgroundColor;
         _collectionView.showsHorizontalScrollIndicator = NO;
         _collectionView.bounces = NO;
         [_collectionView registerClass:[YWTableExcelViewColl class] forCellWithReuseIdentifier:@"defalutHeadCell"];
         [self addSubview:_collectionView];
         if (currentLabel == nil) {
-            [_collectionView addConstraint:NSLayoutAttributeLeft equalTo:self offset:0];
+            [_collectionView addConstraint:NSLayoutAttributeLeft equalTo:self offset:padding];
         }else{
-            [_collectionView addConstraint:NSLayoutAttributeLeft equalTo:currentLabel toAttribute:NSLayoutAttributeRight offset:0];
+            [_collectionView addConstraint:NSLayoutAttributeLeft equalTo:currentLabel toAttribute:NSLayoutAttributeRight offset:padding];
         }
-        [_collectionView addConstraint:NSLayoutAttributeRight equalTo:self offset:0];
-        [_collectionView addConstraint:NSLayoutAttributeTop equalTo:self offset:0];
-        [_collectionView addConstraint:NSLayoutAttributeBottom equalTo:self offset:0];
+        [_collectionView addConstraint:NSLayoutAttributeRight equalTo:self offset:-padding];
+        [_collectionView addConstraint:NSLayoutAttributeTop equalTo:self offset:padding];
+        [_collectionView addConstraint:NSLayoutAttributeBottom equalTo:self offset:-padding];
     }
 }
 

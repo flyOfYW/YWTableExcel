@@ -53,7 +53,15 @@
     _excelView.delegate = self;
     _excelView.dataSource = self;
     _excelView.layer.borderWidth = 1;
+    
     [self.view addSubview:_excelView];
+    
+    [_excelView addConstraint:NSLayoutAttributeLeft equalTo:self.view offset:10];
+     [_excelView addConstraint:NSLayoutAttributeTop equalTo:self.view offset:80];
+     [_excelView addConstraint:NSLayoutAttributeRight equalTo:self.view offset:-10];
+     [_excelView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:240];
+
+    
 }
 - (NSArray<YWColumnMode *> *)tableExcelView:(YWTableExcelView *)excelView titleForFixedHeaderInSection:(NSInteger)section{
     return @[];
@@ -72,6 +80,11 @@
 }
 - (void)tableExcelView:(YWTableExcelView *)tableView didSelectColumnAtIndexPath:(NSIndexPath *)indexPath{
     NSLog(@"第%zi组第%zi行第%zi列",indexPath.section,indexPath.row,indexPath.colunmn);
+    NSString* menu = [NSString stringWithFormat:@"第%zi组第%zi行第%zi列",indexPath.section,indexPath.row,indexPath.colunmn];
+    UIAlertController *alter = [UIAlertController alertControllerWithTitle:@"提示" message:menu preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *ar = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+    [alter addAction:ar];
+    [self presentViewController:alter animated:YES completion:nil];
 }
 - (void)dealloc{
     NSLog(@"%s",__func__);
