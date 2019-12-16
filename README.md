@@ -44,6 +44,8 @@
 YWTableExcel is available through [CocoaPods](https://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
+在Podfile中添加： source 'https://cdn.cocoapods.org/'
+
 ```ruby
 pod 'YWTableExcel'
 ```
