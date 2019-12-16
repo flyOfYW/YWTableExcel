@@ -6,8 +6,15 @@
 [![Platform](https://img.shields.io/cocoapods/p/YWTableExcel.svg?style=flat)](https://cocoapods.org/pods/YWTableExcel)
 
 ## Example
-
-To run the example project, clone the repo, and run `pod install` from the Example directory first.
+   类似tableView的用法
+```
+   YWTableExcelViewMode *mode = [YWTableExcelViewMode new];
+    mode.columnStyle = YWTableExcelViewColumnStyleText;//不需要点击模式
+    YWTableExcelView *excelView = [[YWTableExcelView alloc] initWithFrame:CGRectZero withMode:mode];
+    excelView.delegate = self;
+    excelView.dataSource = self;
+    [self.view addSubview:_excelView];
+```
 
 ## Requirements
 
