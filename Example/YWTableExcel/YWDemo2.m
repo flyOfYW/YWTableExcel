@@ -49,6 +49,7 @@
     mode.columnStyle = YWTableExcelViewColumnStyleBtn;
     
     _excelView = [[YWTableExcelView alloc] initWithFrame:CGRectMake(10, 80, CGRectGetWidth(self.view.frame) - 20, 200) withMode:mode];
+    _excelView.selectionStyle = YWTableExcelViewColumnSelectionStyleGray;
     _excelView.delegate = self;
     _excelView.dataSource = self;
     _excelView.layer.borderWidth = 1;

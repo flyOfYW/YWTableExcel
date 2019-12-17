@@ -30,6 +30,9 @@ YWTableExcelCellDelegate>
     BOOL _isAddHorizontalView;
     NSLayoutConstraint *_top;
     NSLayoutConstraint *_bottom;
+    NSIndexPath *_lastSelectedIndexPath;//上次选中collecionView中对应的IndexPath
+    NSIndexPath *_lastSelectedTableViewIndexPath;//上次选中tableView中对应的IndexPath
+    NSInteger _lastColumn;
 }
 /**当前控制样式的mode*/
 @property (nonatomic, strong) YWTableExcelViewMode *mode;
@@ -76,8 +79,8 @@ YWTableExcelCellDelegate>
     YWTableExcelCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" ];
     if (!cell) {
         cell = [[YWTableExcelCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell" fixed:_fixedColumnList slide:_slideColumnList cellConfig:_cellConfig];
-        cell.selectionStyle = _selectionStyle == 0 ? UITableViewCellSelectionStyleNone : UITableViewCellSelectionStyleDefault;
-        cell.selection = _selectionStyle == 0 ? NO : YES;
+        cell.selectionStyle = _selectionStyle == 1 ? UITableViewCellSelectionStyleDefault : UITableViewCellSelectionStyleNone ;
+        cell.selection = _selectionStyle == 1 ? YES : NO ;
         cell.delegate = self;
     }
     _excelCell = cell;
@@ -120,13 +123,63 @@ YWTableExcelCellDelegate>
     }
     return 0.0001f;
 }
-- (void)clickExcel:(UITableViewCell *)cell column:(NSInteger)column{
-    NSIndexPath *indexPath = [_tableView indexPathForCell:cell];
-    indexPath.colunmn = column;
+//YWTableExcelViewColumnStyleBtn
+- (void)clickExcel:(YWTableExcelCell *)cell collectionViewForIndexPath:(NSIndexPath *)indexPath column:(NSInteger)column{
+    if (indexPath.row == -1) {//固定的列
+        [self clickExcelWhenFixed:cell column:column];
+    }else{
+        [self clickExcelWhenSlide:cell collectionViewForIndexPath:indexPath column:column];
+    }
+    NSIndexPath *cell_indexPath = [_tableView indexPathForCell:cell];
+    cell_indexPath.colunmn = column;
     if (_delegateHas.didSelectColumnAtIndexPath) {
-        [_delegate tableExcelView:self didSelectColumnAtIndexPath:indexPath];
+        [_delegate tableExcelView:self didSelectColumnAtIndexPath:cell_indexPath];
+    }
+    _lastSelectedTableViewIndexPath = cell_indexPath;
+}
+- (void)clickExcelWhenFixed:(YWTableExcelCell *)cell column:(NSInteger)column{
+    if (_cellConfig.selectionStyle == 2) {//单元格选中颜色与否操作
+        [self clickExcelCommonAction];
+        [cell selectedItemAtIndexPath:nil fixedItem:column];
+        _lastSelectedIndexPath = nil;
+        _lastColumn = column;
     }
 }
+- (void)clickExcelWhenSlide:(YWTableExcelCell *)cell collectionViewForIndexPath:(NSIndexPath *)indexPath column:(NSInteger)column{
+    if (_cellConfig.selectionStyle == 2) {//单元格选中颜色与否操作
+        [self clickExcelCommonAction];
+        [cell selectedItemAtIndexPath:indexPath fixedItem:0];
+        _lastSelectedIndexPath = indexPath;
+        _lastColumn = -100;
+    }
+}
+- (void)clickExcelCommonAction{
+    if ( _lastSelectedTableViewIndexPath) {
+        YWTableExcelCell *lastSelectedCell = [_tableView cellForRowAtIndexPath:_lastSelectedTableViewIndexPath];
+        if (lastSelectedCell) {
+            if (_lastColumn == -100) {
+                [lastSelectedCell deselectItemAtIndexPath:_lastSelectedIndexPath fixedItem:0];
+            }else{
+                [lastSelectedCell deselectItemAtIndexPath:nil fixedItem:_lastColumn];
+            }
+        }else{
+            if (_lastColumn != -100) {
+                if (_dataSourceHas.fixedCellForRowAtIndexPathForMode) {
+                    NSArray *fixedList = [_dataSource tableExcelView:self fixedCellForRowAtIndexPath:_lastSelectedTableViewIndexPath];
+                    YWColumnMode *model = fixedList.count > _lastColumn ? fixedList[_lastColumn]:nil;
+                    model.selected = NO;
+                }
+            }else{
+                if (_dataSourceHas.slideCellForRowAtIndexPathForMode) {
+                    NSArray *slideList = [_dataSource tableExcelView:self slideCellForRowAtIndexPath:_lastSelectedTableViewIndexPath];
+                    YWColumnMode *model = slideList.count > _lastSelectedIndexPath.row ? slideList[_lastSelectedIndexPath.row]:nil;
+                    model.selected = NO;
+                }
+            }
+        }
+    }
+}
+
 //MARK: ----------- init -----------
 - (instancetype)initWithFrame:(CGRect)frame withMode:(YWTableExcelViewMode *)mode{
     self = [super initWithFrame:frame];
@@ -159,7 +212,7 @@ YWTableExcelCellDelegate>
     [_contentView addLayoutConstraint:_bottom];
     
     [self createUIWithDefalut];
-
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(scrollMove:) name:_NotificationID object:nil];
 }
 
@@ -336,6 +389,10 @@ YWTableExcelCellDelegate>
 }
 - (void)setOutsideBorderWidth:(CGFloat)outsideBorderWidth{
     _contentView.layer.borderWidth = outsideBorderWidth;
+}
+- (void)setSelectionStyle:(YWTableExcelViewCellSelectionStyle)selectionStyle{
+    _selectionStyle = selectionStyle;
+    _cellConfig.selectionStyle = selectionStyle;
 }
 - (void)setTableHeaderView:(UIView *)tableHeaderView{
     [_contentView.superview removeConstraint:_top];

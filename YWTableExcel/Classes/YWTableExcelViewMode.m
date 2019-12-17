@@ -24,6 +24,7 @@
     self = [super init];
     if (self) {
         _textColor = [UIColor darkGrayColor];
+        _selectedBackgroundColor = [UIColor systemGrayColor];
     }
     return self;
 }

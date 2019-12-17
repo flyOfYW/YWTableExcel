@@ -10,7 +10,7 @@
 
 @class YWColumnMode;
 @class YWExcelCellConfig;
-
+@class YWTableExcelCell;
 NS_ASSUME_NONNULL_BEGIN
 
 
@@ -19,7 +19,8 @@ UIKIT_EXTERN NSString *const YW_EXCEL_NOTIFI_KEY;
 
 @protocol YWTableExcelCellDelegate <NSObject>
 
-- (void)clickExcel:(UITableViewCell *)cell column:(NSInteger)column;
+- (void)clickExcel:(YWTableExcelCell *)cell collectionViewForIndexPath:(NSIndexPath *)indexPath column:(NSInteger)column;
+
 
 @end
 
@@ -42,6 +43,8 @@ UIKIT_EXTERN NSString *const YW_EXCEL_NOTIFI_KEY;
                    cellConfig:(YWExcelCellConfig *)config;
 - (void)reloadFixed:(NSArray <YWColumnMode *>*)fixedColumn
               slide:(NSArray <YWColumnMode *>*)slideColumn;
+- (void)selectedItemAtIndexPath:(nullable NSIndexPath *)indexPath fixedItem:(NSInteger)column;
+- (void)deselectItemAtIndexPath:(nullable NSIndexPath *)indexPath fixedItem:(NSInteger)column;
 @end
 
 NS_ASSUME_NONNULL_END

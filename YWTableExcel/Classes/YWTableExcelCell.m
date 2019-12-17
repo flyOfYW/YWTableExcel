@@ -49,9 +49,30 @@ NSString *const YW_EXCEL_NOTIFI_KEY = @"YWCellOffX";;
         if (_config.columnStyle == YWTableExcelViewColumnStyleText) {
             UILabel *label = [self.contentView viewWithTag:100 + i];
             label.text = columnModel.text;
+            label.mode = columnModel;
+            if (_config.selectionStyle == 2) {
+                if (columnModel.selected) {
+                    label.backgroundColor = columnModel.selectedBackgroundColor;
+                }else{
+                    label.backgroundColor = columnModel.backgroundColor;
+                }
+            }else{
+                label.backgroundColor = columnModel.backgroundColor;
+            }
         }else{
             UIButton *btn = [self.contentView viewWithTag:100 + i];
+            btn.mode = columnModel;
             [btn setTitle:columnModel.text forState:UIControlStateNormal];
+            if (_config.selectionStyle == 2) {
+                if (columnModel.selected) {
+                    btn.backgroundColor = columnModel.selectedBackgroundColor;
+                }else{
+                    btn.backgroundColor = columnModel.backgroundColor;
+                }
+            }else{
+                btn.backgroundColor = columnModel.backgroundColor;
+            }
+
         }
     }
 }
@@ -91,30 +112,65 @@ NSString *const YW_EXCEL_NOTIFI_KEY = @"YWCellOffX";;
     cell.menuLabel.layer.borderColor = _config.columnBorderColor.CGColor;
     if (indexPath.row < _slideData.count) {
         YWColumnMode *model = _slideData[indexPath.row];
-        cell.contentView.backgroundColor = model.backgroundColor;
         cell.menuLabel.textColor = model.textColor;
         if (_canColumn) {
             cell.menuLabel.text = model.text;
         }else{
             cell.menuLabel.text = @"";
         }
+        if (_config.selectionStyle == 2) {
+            if (model.selected) {
+                cell.contentView.backgroundColor = model.selectedBackgroundColor;
+            }else{
+                cell.contentView.backgroundColor = model.backgroundColor;
+            }
+        }else{
+            cell.contentView.backgroundColor = model.backgroundColor;
+        }
     }
-    
     return cell;
 }
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    if (_selection) {
+    if (_selection) {//选中行
         if (self.collClick) {
             self.collClick(self);
         }
     }
     if (_config.columnStyle == YWTableExcelViewColumnStyleBtn) {
-        [_delegate clickExcel:self column:indexPath.row + _fixedColumn.count];
+        if (indexPath.row < _slideData.count) {
+            [_delegate clickExcel:self collectionViewForIndexPath:indexPath column:indexPath.row + _fixedColumn.count];
+        }
     }
 }
-
+- (void)selectedItemAtIndexPath:(nullable NSIndexPath *)indexPath fixedItem:(NSInteger)column{
+    if (indexPath == nil) {
+        UIView *bView = [self.contentView viewWithTag:100 + column];
+        bView.mode.selected = YES;
+        bView.backgroundColor = bView.mode.selectedBackgroundColor;
+        return;
+    }
+    if (indexPath.row < _slideData.count) {
+        YWColumnMode *model = _slideData[indexPath.row];
+        model.selected = YES;
+        [_collectionView reloadItemsAtIndexPaths:@[indexPath]];
+    }
+}
+- (void)deselectItemAtIndexPath:(nullable NSIndexPath *)indexPath fixedItem:(NSInteger)column{
+    if (indexPath == nil) {
+        UIView *bView = [self.contentView viewWithTag:100 + column];
+        bView.mode.selected = NO;
+        bView.backgroundColor = bView.mode.backgroundColor;
+        return;
+    }
+    if (indexPath.row < _slideData.count) {
+        YWColumnMode *model = _slideData[indexPath.row];
+        model.selected = NO;
+        [_collectionView reloadItemsAtIndexPaths:@[indexPath]];
+    }
+}
 - (void)clickColumn:(UIButton *)btn{
-    [_delegate clickExcel:self column:btn.tag - 100];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:-1 inSection:0];
+    [_delegate clickExcel:self collectionViewForIndexPath:indexPath column:btn.tag - 100];
 }
 #pragma mark - UIScrollViewDelegate
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
@@ -133,11 +189,6 @@ NSString *const YW_EXCEL_NOTIFI_KEY = @"YWCellOffX";;
     }
     _isAllowedNotification = NO;
 }
-
-- (void)setContentOffset:(CGPoint)point{
-    [_collectionView setContentOffset:point animated:NO];
-}
-
 - (void)scrollMove:(NSNotification*)notification{
     NSDictionary *noticeInfo = notification.userInfo;
     NSObject *obj = notification.object;

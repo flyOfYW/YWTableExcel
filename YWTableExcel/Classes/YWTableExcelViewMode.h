@@ -30,6 +30,10 @@ typedef NS_ENUM(NSInteger, YWTableExcelViewSectionStyle) {
 @property (nonatomic, strong,nullable) UIColor *backgroundColor;
 /**文字颜色*/
 @property (nonatomic, strong) UIColor *textColor;
+/**是否选中(内部使用)*/
+@property (nonatomic, assign) BOOL selected;
+/**选中背景颜色*/
+@property (nonatomic, strong,nullable) UIColor *selectedBackgroundColor;
 
 
 @end
@@ -60,6 +64,11 @@ __attribute__((objc_subclassing_restricted))
 @property (nonatomic,assign) CGFloat columnBorderWidth;
 /**单元格的边框颜色*/
 @property (nonatomic,strong,nullable) UIColor *columnBorderColor;
+
+@property (nonatomic,assign) NSInteger selectionStyle;
+
+
+
 
 @end
 

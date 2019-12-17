@@ -14,11 +14,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 typedef NS_ENUM(NSInteger, YWTableExcelViewCellSelectionStyle) {
-    YWTableExcelViewCellSelectionStyleStyleNone,
-    YWTableExcelViewCellSelectionStyleGray
+    YWTableExcelViewCellSelectionStyleStyleNone = 0,
+    YWTableExcelViewCellSelectionStyleGray,
+    YWTableExcelViewColumnSelectionStyleGray
 };
 typedef NS_ENUM(NSInteger, YWTableExcelViewHeaderInSectionMode) {
-    YWTableExcelViewHeaderInSectionModeNone,
+    YWTableExcelViewHeaderInSectionModeNone = 0,
     YWTableExcelViewHeaderInSectionModeCustom,
 };
 @class YWTableExcelView;
