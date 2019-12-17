@@ -5,8 +5,7 @@
 [![License](https://img.shields.io/cocoapods/l/YWTableExcel.svg?style=flat)](https://cocoapods.org/pods/YWTableExcel)
 [![Platform](https://img.shields.io/cocoapods/p/YWTableExcel.svg?style=flat)](https://cocoapods.org/pods/YWTableExcel)
 
-采用UITableView和UICollectionView嵌套使用来实现Excel、课程表、上下左右联动效果
-基于YWExcel的痛点作出的修改版本，左右滑动使用UICollectionView达到复用，且支持点击事件，更多自定义功能
+采用UITableView和UICollectionView嵌套使用来实现Excel、课程表、上下左右联动效果；基于YWExcel的痛点作出的修改版本，左右滑动使用UICollectionView达到复用，且支持点击事件，更多自定义功能
 简介
 ==============
 - **1**: 纯文本显示
