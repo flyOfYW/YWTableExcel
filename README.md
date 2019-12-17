@@ -9,7 +9,8 @@
 
 ## 效果图
  ![image](https://github.com/flyOfYW/YWTableExcel/blob/master/Example/YWTableExcel/image_re/WX20191217-134925%402x.png)
-
+ ![image](https://github.com/flyOfYW/YWTableExcel/blob/master/Example/YWTableExcel/image_re/WX20191217-134944%402x.png)
+ ![image](https://github.com/flyOfYW/YWTableExcel/blob/master/Example/YWTableExcel/image_re/WX20191217-134959%402x.png)
 
 ## Example
 ```
