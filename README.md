@@ -7,6 +7,17 @@
 
 采用UITableView和UICollectionView嵌套使用来实现Excel、课程表、上下左右联动效果
 
+简介
+==============
+- **1**: 纯文本显示
+- **2**: 每一行支持选中
+- **3**: 每一个单元格支持选中
+- **4**: 支持分组
+- **5**: 支持自定义表头和表尾
+- **6**: 支持自定义组头
+- **7**: 支持局部刷新
+
+
 ## 效果图
 
 <img src="https://github.com/flyOfYW/YWTableExcel/blob/master/Example/YWTableExcel/image_re/WX20191217-134925%402x.png" width="400" height="343"><img src="https://github.com/flyOfYW/YWTableExcel/blob/master/Example/YWTableExcel/image_re/WX20191217-134944%402x.png" width="400" height="462">
