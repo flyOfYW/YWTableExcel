@@ -8,6 +8,8 @@
 采用UITableView和UICollectionView嵌套使用来实现Excel、课程表、上下左右联动效果
 
 ## 效果图
+
+<img src="https://github.com/flyOfYW/YWTableExcel/blob/master/Example/YWTableExcel/image_re/WX20191217-134925%402x.png" width="200" height="200">
  ![image](https://github.com/flyOfYW/YWTableExcel/blob/master/Example/YWTableExcel/image_re/WX20191217-134925%402x.png)
  ![image](https://github.com/flyOfYW/YWTableExcel/blob/master/Example/YWTableExcel/image_re/WX20191217-134944%402x.png)
  ![image](https://github.com/flyOfYW/YWTableExcel/blob/master/Example/YWTableExcel/image_re/WX20191217-134959%402x.png)
