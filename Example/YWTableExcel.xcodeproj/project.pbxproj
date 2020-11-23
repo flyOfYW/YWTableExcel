@@ -25,6 +25,8 @@
 		7B0CB06B23A8A48700B7B7DE /* WX20191217-134944@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B0CB06823A8A48700B7B7DE /* WX20191217-134944@2x.png */; };
 		7B0CB06C23A8A48700B7B7DE /* WX20191217-134959@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B0CB06923A8A48700B7B7DE /* WX20191217-134959@2x.png */; };
 		7B0CB06D23A8A48700B7B7DE /* WX20191217-134925@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B0CB06A23A8A48700B7B7DE /* WX20191217-134925@2x.png */; };
+		7B302FDF256B54F60009CD36 /* YWCusCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B302FDE256B54F60009CD36 /* YWCusCell.m */; };
+		7B302FEE256B69000009CD36 /* YWDemo4.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B302FED256B69000009CD36 /* YWDemo4.m */; };
 		7B72E3E423A78B2A00171515 /* YWDemo3.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B72E3E323A78B2A00171515 /* YWDemo3.m */; };
 		7BF1C7EB23A37BA4002EA0BA /* YWDemo1.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BF1C7EA23A37BA4002EA0BA /* YWDemo1.m */; };
 		7BF1C7EE23A37C8B002EA0BA /* YWDemo2.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BF1C7ED23A37C8B002EA0BA /* YWDemo2.m */; };
@@ -70,6 +72,10 @@
 		7B0CB06823A8A48700B7B7DE /* WX20191217-134944@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "WX20191217-134944@2x.png"; sourceTree = "<group>"; };
 		7B0CB06923A8A48700B7B7DE /* WX20191217-134959@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "WX20191217-134959@2x.png"; sourceTree = "<group>"; };
 		7B0CB06A23A8A48700B7B7DE /* WX20191217-134925@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "WX20191217-134925@2x.png"; sourceTree = "<group>"; };
+		7B302FDD256B54F60009CD36 /* YWCusCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YWCusCell.h; sourceTree = "<group>"; };
+		7B302FDE256B54F60009CD36 /* YWCusCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YWCusCell.m; sourceTree = "<group>"; };
+		7B302FEC256B69000009CD36 /* YWDemo4.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YWDemo4.h; sourceTree = "<group>"; };
+		7B302FED256B69000009CD36 /* YWDemo4.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YWDemo4.m; sourceTree = "<group>"; };
 		7B72E3E223A78B2A00171515 /* YWDemo3.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YWDemo3.h; sourceTree = "<group>"; };
 		7B72E3E323A78B2A00171515 /* YWDemo3.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YWDemo3.m; sourceTree = "<group>"; };
 		7BF1C7E923A37BA4002EA0BA /* YWDemo1.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YWDemo1.h; sourceTree = "<group>"; };
@@ -170,6 +176,10 @@
 				7BF1C7ED23A37C8B002EA0BA /* YWDemo2.m */,
 				7B72E3E223A78B2A00171515 /* YWDemo3.h */,
 				7B72E3E323A78B2A00171515 /* YWDemo3.m */,
+				7B302FEC256B69000009CD36 /* YWDemo4.h */,
+				7B302FED256B69000009CD36 /* YWDemo4.m */,
+				7B302FDD256B54F60009CD36 /* YWCusCell.h */,
+				7B302FDE256B54F60009CD36 /* YWCusCell.m */,
 				71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */,
 				6003F5A8195388D20070C39A /* Images.xcassets */,
 				6003F594195388D20070C39A /* Supporting Files */,
@@ -406,6 +416,8 @@
 				7BF1C7EE23A37C8B002EA0BA /* YWDemo2.m in Sources */,
 				7B72E3E423A78B2A00171515 /* YWDemo3.m in Sources */,
 				6003F5A7195388D20070C39A /* YWViewController.m in Sources */,
+				7B302FDF256B54F60009CD36 /* YWCusCell.m in Sources */,
+				7B302FEE256B69000009CD36 /* YWDemo4.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
 				7BF1C7EB23A37BA4002EA0BA /* YWDemo1.m in Sources */,
 			);

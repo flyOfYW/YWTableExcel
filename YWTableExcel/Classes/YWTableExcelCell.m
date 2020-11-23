@@ -93,16 +93,6 @@ NSString *const YW_EXCEL_NOTIFI_KEY = @"YWCellOffX";;
     }
     return self;
 }
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    // Initialization code
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-    
-    // Configure the view for the selected state
-}
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     return _slideData.count;
 }
@@ -131,14 +121,13 @@ NSString *const YW_EXCEL_NOTIFI_KEY = @"YWCellOffX";;
     return cell;
 }
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    if (_selection) {//选中行
-        if (self.collClick) {
-            self.collClick(self);
-        }
-    }
     if (_config.columnStyle == YWTableExcelViewColumnStyleBtn) {
         if (indexPath.row < _slideData.count) {
             [_delegate clickExcel:self collectionViewForIndexPath:indexPath column:indexPath.row + _fixedColumn.count];
+        }
+    }else if(_config.columnStyle == YWTableExcelViewLineStyleText){
+        if (self.collClick) {
+            self.collClick(self);
         }
     }
 }
@@ -269,6 +258,16 @@ NSString *const YW_EXCEL_NOTIFI_KEY = @"YWCellOffX";;
         [_collectionView addConstraint:NSLayoutAttributeRight equalTo:self.contentView offset:0];
         [_collectionView addConstraint:NSLayoutAttributeTop equalTo:self.contentView offset:0];
         [_collectionView addConstraint:NSLayoutAttributeBottom equalTo:self.contentView offset:0];
+    }
+    if (_config.lineViewImage || _config.lineViewColor) {
+        _lineView = [UIImageView new];
+        _lineView.backgroundColor = _config.lineViewColor;
+        _lineView.image = _config.lineViewImage;
+        [self.contentView addSubview:_lineView];
+        [_lineView addConstraint:NSLayoutAttributeLeft equalTo:self.contentView offset:0];
+        [_lineView addConstraint:NSLayoutAttributeRight equalTo:self.contentView offset:1];
+        [_lineView addConstraint:NSLayoutAttributeBottom equalTo:self.contentView offset:0];
+        [_lineView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:_config.lineViewHeight == 0 ? 1:_config.lineViewHeight];
     }
 }
 

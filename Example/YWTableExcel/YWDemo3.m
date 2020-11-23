@@ -66,8 +66,9 @@
     
     
     YWTableExcelViewMode *mode = [YWTableExcelViewMode new];
-    mode.columnStyle = YWTableExcelViewColumnStyleText;
+    mode.columnStyle = YWTableExcelViewLineStyleText;
     mode.sectionStyle = YWTableExcelViewSectionStyleGrouped;
+    
     _excelView = [[YWTableExcelView alloc] initWithFrame:CGRectZero withMode:mode];
     _excelView.delegate = self;
     _excelView.dataSource = self;

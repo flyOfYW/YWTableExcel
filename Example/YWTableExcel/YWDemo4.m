@@ -1,15 +1,16 @@
 //
-//  YWDemo1.m
+//  YWDemo4.m
 //  YWTableExcel_Example
 //
-//  Created by Mr.Yao on 2019/12/13.
-//  Copyright © 2019 flyOfYW. All rights reserved.
+//  Created by Mr.Yao on 2020/11/23.
+//  Copyright © 2020 flyOfYW. All rights reserved.
 //
 
-#import "YWDemo1.h"
+#import "YWDemo4.h"
 #import <YWTableExcel/YWTableExcelView.h>
+#import "YWCusCell.h"
 
-@interface YWDemo1 ()<YWTableExcelViewDataSource,YWTableExcelViewDelegate>
+@interface YWDemo4 ()<YWTableExcelViewDataSource,YWTableExcelViewDelegate>
 @property (nonatomic, strong) YWTableExcelView *excelView;
 @property (nonatomic, strong) NSMutableArray <YWColumnMode *> *fixedColumnList;
 @property (nonatomic, strong) NSMutableArray <YWColumnMode *> *slideColumnList;
@@ -17,7 +18,7 @@
 @property (nonatomic, strong) NSMutableArray  *slideList;
 @end
 
-@implementation YWDemo1
+@implementation YWDemo4
 
 - (void)viewDidLoad{
     [super viewDidLoad];
@@ -68,9 +69,7 @@
     
     
     YWTableExcelViewMode *mode = [YWTableExcelViewMode new];
-    mode.columnStyle = YWTableExcelViewColumnStyleText;
-//    mode.columnBorderWidth = 0.5;
-//    mode.columnBorderColor = [UIColor blueColor];
+    mode.columnStyle = YWTableExcelViewLineStyleText;
     mode.lineColor = [UIColor redColor];
     
     _excelView = [[YWTableExcelView alloc] initWithFrame:CGRectZero withMode:mode];
@@ -80,6 +79,7 @@
     _excelView.addHorizontalDivider = YES;
     _excelView.dividerColor = [UIColor redColor];
     _excelView.layer.borderWidth = 1;
+    [_excelView registerClass:[YWCusCell class]];
     [self.view addSubview:_excelView];
             
     [_excelView addConstraint:NSLayoutAttributeLeft equalTo:self.view offset:10];

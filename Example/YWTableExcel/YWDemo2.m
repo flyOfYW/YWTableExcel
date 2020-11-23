@@ -39,6 +39,7 @@
         for (int i = 0; i < 7; i ++) {
             YWColumnMode *model1 = [YWColumnMode new];
             model1.text = [NSString stringWithFormat:@"%d行%d列",j,i];
+            model1.selectedBackgroundColor = [UIColor redColor];
             [cloumnList addObject:model1];
         }
         [_slideList addObject:cloumnList];
@@ -47,9 +48,10 @@
     
     YWTableExcelViewMode *mode = [YWTableExcelViewMode new];
     mode.columnStyle = YWTableExcelViewColumnStyleBtn;
+    mode.columnBorderWidth = 0.8;
+    mode.columnBorderColor = [UIColor blueColor];
     
     _excelView = [[YWTableExcelView alloc] initWithFrame:CGRectMake(10, 80, CGRectGetWidth(self.view.frame) - 20, 200) withMode:mode];
-    _excelView.selectionStyle = YWTableExcelViewColumnSelectionStyleGray;
     _excelView.delegate = self;
     _excelView.dataSource = self;
     _excelView.layer.borderWidth = 1;

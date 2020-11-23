@@ -12,8 +12,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 typedef NS_ENUM(NSInteger, YWTableExcelViewColumnStyle) {
-    YWTableExcelViewColumnStyleText = 0,//纯文本显示
-    YWTableExcelViewColumnStyleBtn,//每个单元格均可点击
+    YWTableExcelViewColumnStyleText = 0,//纯文本显示[不支持行选择以及单元格单击操作]
+    YWTableExcelViewLineStyleText ,//文本显示[支持行选择不支持单元格单击操作]
+    YWTableExcelViewColumnStyleBtn,//每个单元格均可点击不支持行选择
 };
 typedef NS_ENUM(NSInteger, YWTableExcelViewSectionStyle) {
     YWTableExcelViewSectionStylePlain,          // regular table view
@@ -40,20 +41,38 @@ typedef NS_ENUM(NSInteger, YWTableExcelViewSectionStyle) {
 
 __attribute__((objc_subclassing_restricted))
 @interface YWTableExcelViewMode : NSObject
-/**列的显示模式*/
+/**TableExcelView显示模式*/
 @property (nonatomic,assign) YWTableExcelViewColumnStyle columnStyle;
 /**默认头部的高度*/
 @property (nonatomic,assign) CGFloat defalutHeight;
+
+//针对每个一个单元格而言
 /**单元格的边框宽度，建议0.8*/
 @property (nonatomic,assign) CGFloat columnBorderWidth;
 /**单元格的边框颜色*/
 @property (nonatomic,strong, nullable) UIColor *columnBorderColor;
+
+//针对每一行而言
+//针对每一行底部线的颜色
+@property (nonatomic,strong, nullable) UIColor *lineColor;
+//针对每一行底部线，支持设置个性图片
+@property (nonatomic,strong, nullable) UIImage *lineImage;
+//针对每一行底部线
+@property (nonatomic,assign          ) CGFloat lineHeight;
+
+
+
 /**组样式*/
 @property (nonatomic,assign) YWTableExcelViewSectionStyle sectionStyle;
 
 
+
 @end
 
+
+/**
+ *内部类使用
+ */
 __attribute__((objc_subclassing_restricted))
 @interface YWExcelCellConfig : NSObject
 
@@ -67,6 +86,12 @@ __attribute__((objc_subclassing_restricted))
 
 @property (nonatomic,assign) NSInteger selectionStyle;
 
+//针对每一行底部线的颜色
+@property (nonatomic,strong, nullable) UIColor *lineViewColor;
+//针对每一行底部线，支持设置个性图片
+@property (nonatomic,strong, nullable) UIImage *lineViewImage;
+//针对每一行底部线
+@property (nonatomic,assign          ) CGFloat lineViewHeight;
 
 
 

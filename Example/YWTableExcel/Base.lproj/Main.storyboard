@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="0kW-h0-C3m">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="0kW-h0-C3m">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -35,9 +36,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NTK-mi-Ce9">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NTK-mi-Ce9">
                                 <rect key="frame" x="20" y="74" width="214" height="30"/>
-                                <color key="backgroundColor" systemColor="linkColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" systemColor="linkColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="oaE-nh-jVg"/>
                                 </constraints>
@@ -48,9 +49,9 @@
                                     <action selector="defalutAction:" destination="whP-gf-Uak" eventType="touchUpInside" id="SaI-eK-Dv1"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hO8-aJ-yT6">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hO8-aJ-yT6">
                                 <rect key="frame" x="20" y="124" width="214" height="30"/>
-                                <color key="backgroundColor" systemColor="linkColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" systemColor="linkColor"/>
                                 <state key="normal" title="YWTableExcelViewStylePlain">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
@@ -58,14 +59,24 @@
                                     <action selector="planAction:" destination="whP-gf-Uak" eventType="touchUpInside" id="V2L-c7-drY"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vs0-55-kdH">
-                                <rect key="frame" x="20" y="184" width="214" height="30"/>
-                                <color key="backgroundColor" systemColor="linkColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vs0-55-kdH">
+                                <rect key="frame" x="20" y="244" width="214" height="30"/>
+                                <color key="backgroundColor" systemColor="linkColor"/>
                                 <state key="normal" title="表头和分组">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
                                     <action selector="sectionAction:" destination="whP-gf-Uak" eventType="touchUpInside" id="fcV-CI-4jN"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fC9-Xz-mMo">
+                                <rect key="frame" x="20" y="184" width="214" height="30"/>
+                                <color key="backgroundColor" systemColor="linkColor"/>
+                                <state key="normal" title="自定义行选择的颜色">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="cusChooseAction:" destination="whP-gf-Uak" eventType="touchUpInside" id="2c8-nS-Owf"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -75,13 +86,17 @@
                             <constraint firstItem="NTK-mi-Ce9" firstAttribute="height" secondItem="hO8-aJ-yT6" secondAttribute="height" id="2GZ-Y1-dpP"/>
                             <constraint firstItem="NTK-mi-Ce9" firstAttribute="leading" secondItem="TpU-gO-2f1" secondAttribute="leading" constant="20" id="371-9X-PTJ"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="hO8-aJ-yT6" secondAttribute="trailing" constant="20" symbolic="YES" id="FFs-kZ-fsY"/>
+                            <constraint firstItem="vs0-55-kdH" firstAttribute="top" secondItem="fC9-Xz-mMo" secondAttribute="bottom" constant="30" id="Hh9-Zc-edF"/>
+                            <constraint firstItem="fC9-Xz-mMo" firstAttribute="trailing" secondItem="hO8-aJ-yT6" secondAttribute="trailing" id="KQM-eD-kxG"/>
                             <constraint firstItem="vs0-55-kdH" firstAttribute="leading" secondItem="hO8-aJ-yT6" secondAttribute="leading" id="NsC-Fx-vdf"/>
-                            <constraint firstItem="vs0-55-kdH" firstAttribute="top" secondItem="hO8-aJ-yT6" secondAttribute="bottom" constant="30" id="bn5-cd-cY1"/>
+                            <constraint firstItem="fC9-Xz-mMo" firstAttribute="leading" secondItem="hO8-aJ-yT6" secondAttribute="leading" id="Od0-w4-M9O"/>
+                            <constraint firstItem="fC9-Xz-mMo" firstAttribute="height" secondItem="hO8-aJ-yT6" secondAttribute="height" id="aq1-vh-DCr"/>
                             <constraint firstItem="hO8-aJ-yT6" firstAttribute="top" secondItem="NTK-mi-Ce9" secondAttribute="bottom" constant="20" id="d5S-De-xTR"/>
                             <constraint firstItem="vs0-55-kdH" firstAttribute="width" secondItem="hO8-aJ-yT6" secondAttribute="width" id="f2H-Uy-1qy"/>
                             <constraint firstItem="hO8-aJ-yT6" firstAttribute="width" secondItem="NTK-mi-Ce9" secondAttribute="width" id="mRF-Xf-dYi"/>
                             <constraint firstItem="hO8-aJ-yT6" firstAttribute="leading" secondItem="NTK-mi-Ce9" secondAttribute="leading" id="uLD-2D-eoj"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="NTK-mi-Ce9" secondAttribute="trailing" constant="20" symbolic="YES" id="xdC-WY-EFr"/>
+                            <constraint firstItem="fC9-Xz-mMo" firstAttribute="top" secondItem="hO8-aJ-yT6" secondAttribute="bottom" constant="30" id="zPu-kB-zge"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="ZKh-dX-pki"/>
@@ -91,4 +106,9 @@
             <point key="canvasLocation" x="305" y="433"/>
         </scene>
     </scenes>
+    <resources>
+        <systemColor name="linkColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
 </document>

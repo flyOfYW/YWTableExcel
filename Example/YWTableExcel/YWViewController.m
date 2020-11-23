@@ -10,6 +10,7 @@
 #import "YWDemo1.h"
 #import "YWDemo2.h"
 #import "YWDemo3.h"
+#import "YWDemo4.h"
 
 @interface YWViewController ()
 
@@ -25,6 +26,10 @@
 - (IBAction)planAction:(id)sender {
     YWDemo2 *ctr = [YWDemo2 new];
     [self.navigationController pushViewController:ctr animated:YES];
+}
+- (IBAction)cusChooseAction:(id)sender {
+    YWDemo4 *ctr = [YWDemo4 new];
+     [self.navigationController pushViewController:ctr animated:YES];
 }
 - (IBAction)sectionAction:(id)sender {
     YWDemo3 *ctr = [YWDemo3 new];

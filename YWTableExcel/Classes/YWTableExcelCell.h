@@ -28,12 +28,11 @@ UIKIT_EXTERN NSString *const YW_EXCEL_NOTIFI_KEY;
 
 @property (nonatomic,   weak, nullable) id <YWTableExcelCellDelegate>delegate;
 
-
 @property (nonatomic,   copy, nullable)  void(^collClick)(UITableViewCell *cell);
 
-@property (nonatomic, strong,readonly) UICollectionView *collectionView;
+@property (nonatomic, strong, readonly) UICollectionView *collectionView;
 
-@property (nonatomic, assign) BOOL selection;
+@property (nonatomic, strong, readonly) UIImageView *lineView;
 
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style
@@ -41,10 +40,14 @@ UIKIT_EXTERN NSString *const YW_EXCEL_NOTIFI_KEY;
                         fixed:(NSArray <YWColumnMode *>*)fixedColumn
                         slide:(NSArray <YWColumnMode *>*)slideColumn
                    cellConfig:(YWExcelCellConfig *)config;
+//刷新滑动区域
 - (void)reloadFixed:(NSArray <YWColumnMode *>*)fixedColumn
               slide:(NSArray <YWColumnMode *>*)slideColumn;
+//选择操作
 - (void)selectedItemAtIndexPath:(nullable NSIndexPath *)indexPath fixedItem:(NSInteger)column;
+//取消选择操作
 - (void)deselectItemAtIndexPath:(nullable NSIndexPath *)indexPath fixedItem:(NSInteger)column;
+
 @end
 
 NS_ASSUME_NONNULL_END

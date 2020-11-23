@@ -13,11 +13,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 
-typedef NS_ENUM(NSInteger, YWTableExcelViewCellSelectionStyle) {
-    YWTableExcelViewCellSelectionStyleStyleNone = 0,
-    YWTableExcelViewCellSelectionStyleGray,
-    YWTableExcelViewColumnSelectionStyleGray
-};
+
 typedef NS_ENUM(NSInteger, YWTableExcelViewHeaderInSectionMode) {
     YWTableExcelViewHeaderInSectionModeNone = 0,
     YWTableExcelViewHeaderInSectionModeCustom,
@@ -78,8 +74,6 @@ typedef NS_ENUM(NSInteger, YWTableExcelViewHeaderInSectionMode) {
 
 /** 内部通知的name */
 @property (nonatomic, strong, readonly) NSString *NotificationID;
-/** 默认YWTableExcelViewCellSelectionStyleStyleNone */
-@property (nonatomic, assign) YWTableExcelViewCellSelectionStyle selectionStyle;
 /** 数据源的委托 */
 @property (nonatomic, weak, nullable) id <YWTableExcelViewDataSource>dataSource;
 /** 委托 */
@@ -107,10 +101,16 @@ typedef NS_ENUM(NSInteger, YWTableExcelViewHeaderInSectionMode) {
 
 - (instancetype)initWithFrame:(CGRect)frame NS_UNAVAILABLE;
 
+
+/// 自定义cell
+/// @param excelCell cell类
+- (void)registerClass:(Class)excelCell;
+
 /// 构造方法
 /// @param frame frame
 /// @param mode mode
-- (instancetype)initWithFrame:(CGRect)frame withMode:(YWTableExcelViewMode *)mode;
+- (instancetype)initWithFrame:(CGRect)frame
+                     withMode:(YWTableExcelViewMode *)mode;
 /// 刷新头部
 - (void)reloadHeadData;
 /// 刷新 内容部分
@@ -121,7 +121,12 @@ typedef NS_ENUM(NSInteger, YWTableExcelViewHeaderInSectionMode) {
 /// @param indexPath indexPath
 /// @param animated animated
 /// @param scrollPosition scrollPosition
-- (void)selectRowAtIndexPath:(nullable NSIndexPath *)indexPath animated:(BOOL)animated scrollPosition:(UITableViewScrollPosition)scrollPosition;
+- (void)selectRowAtIndexPath:(nullable NSIndexPath *)indexPath
+                    animated:(BOOL)animated
+              scrollPosition:(UITableViewScrollPosition)scrollPosition;
+
+
+
 @end
 
 NS_ASSUME_NONNULL_END

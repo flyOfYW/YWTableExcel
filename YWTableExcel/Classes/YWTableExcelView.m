@@ -33,6 +33,7 @@ YWTableExcelCellDelegate>
     NSIndexPath *_lastSelectedIndexPath;//上次选中collecionView中对应的IndexPath
     NSIndexPath *_lastSelectedTableViewIndexPath;//上次选中tableView中对应的IndexPath
     NSInteger _lastColumn;
+    Class _registerCellClass;
 }
 /**当前控制样式的mode*/
 @property (nonatomic, strong) YWTableExcelViewMode *mode;
@@ -53,6 +54,10 @@ YWTableExcelCellDelegate>
 
 
 @implementation YWTableExcelView
+
+- (void)registerClass:(Class)excelCell{
+    _registerCellClass = excelCell;
+}
 
 - (void)reloadData{
     [self reloadHeadData];
@@ -78,15 +83,19 @@ YWTableExcelCellDelegate>
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     YWTableExcelCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" ];
     if (!cell) {
-        cell = [[YWTableExcelCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell" fixed:_fixedColumnList slide:_slideColumnList cellConfig:_cellConfig];
-        cell.selectionStyle = _selectionStyle == 1 ? UITableViewCellSelectionStyleDefault : UITableViewCellSelectionStyleNone ;
-        cell.selection = _selectionStyle == 1 ? YES : NO ;
+        cell = [[_registerCellClass alloc] initWithStyle:UITableViewCellStyleDefault
+                                       reuseIdentifier:@"cell"
+                                                 fixed:_fixedColumnList
+                                                 slide:_slideColumnList
+                                            cellConfig:_cellConfig];
+        cell.selectionStyle = _mode.columnStyle == YWTableExcelViewLineStyleText ? UITableViewCellSelectionStyleDefault : UITableViewCellSelectionStyleNone;
         cell.delegate = self;
     }
     _excelCell = cell;
     __weak typeof(self)weakSelf = self;
     cell.collClick = ^(UITableViewCell *cell) {
-        [weakSelf.tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
+        __strong typeof(weakSelf)strongSelf = weakSelf;
+        [strongSelf.tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
     };
     NSArray *fixedList = @[];
     NSArray *slideList = @[];
@@ -165,13 +174,17 @@ YWTableExcelCellDelegate>
         }else{
             if (_lastColumn != -100) {
                 if (_dataSourceHas.fixedCellForRowAtIndexPathForMode) {
-                    NSArray *fixedList = [_dataSource tableExcelView:self fixedCellForRowAtIndexPath:_lastSelectedTableViewIndexPath];
+                    NSArray *fixedList = [_dataSource
+                                          tableExcelView:self
+                                          fixedCellForRowAtIndexPath:_lastSelectedTableViewIndexPath];
                     YWColumnMode *model = fixedList.count > _lastColumn ? fixedList[_lastColumn]:nil;
                     model.selected = NO;
                 }
             }else{
                 if (_dataSourceHas.slideCellForRowAtIndexPathForMode) {
-                    NSArray *slideList = [_dataSource tableExcelView:self slideCellForRowAtIndexPath:_lastSelectedTableViewIndexPath];
+                    NSArray *slideList = [_dataSource
+                                          tableExcelView:self
+                                          slideCellForRowAtIndexPath:_lastSelectedTableViewIndexPath];
                     YWColumnMode *model = slideList.count > _lastSelectedIndexPath.row ? slideList[_lastSelectedIndexPath.row]:nil;
                     model.selected = NO;
                 }
@@ -188,6 +201,7 @@ YWTableExcelCellDelegate>
         _list = @[].mutableCopy;
         _dividerColor = [UIColor redColor];
         _widthOrHeight = 1;
+        _registerCellClass = [YWTableExcelCell class];
         [self prepareInit:mode];
     }
     return self;
@@ -202,18 +216,36 @@ YWTableExcelCellDelegate>
     _cellConfig.notifiKey = _NotificationID;
     _cellConfig.columnBorderColor = mode.columnBorderColor;
     _cellConfig.columnBorderWidth = mode.columnBorderWidth;
-    
+    _cellConfig.lineViewColor = mode.lineColor;
+    _cellConfig.lineViewImage = mode.lineImage;
+    _cellConfig.lineViewHeight = mode.lineHeight;
+
     [self addSubview:self.contentView];
     [_contentView addConstraint:NSLayoutAttributeLeft equalTo:self offset:0];
     [_contentView addConstraint:NSLayoutAttributeRight equalTo:self offset:0];
-    _top = [NSLayoutConstraint constraintWithItem:_contentView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1.0 constant:0];
+    _top = [NSLayoutConstraint constraintWithItem:_contentView
+                                        attribute:NSLayoutAttributeTop
+                                        relatedBy:NSLayoutRelationEqual
+                                           toItem:self
+                                        attribute:NSLayoutAttributeTop
+                                       multiplier:1.0
+                                         constant:0];
     [_contentView addLayoutConstraint:_top];
-    _bottom = [NSLayoutConstraint constraintWithItem:_contentView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0];
+    _bottom = [NSLayoutConstraint constraintWithItem:_contentView
+                                           attribute:NSLayoutAttributeBottom
+                                           relatedBy:NSLayoutRelationEqual
+                                              toItem:self
+                                           attribute:NSLayoutAttributeBottom
+                                          multiplier:1.0
+                                            constant:0];
     [_contentView addLayoutConstraint:_bottom];
     
     [self createUIWithDefalut];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(scrollMove:) name:_NotificationID object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(scrollMove:)
+                                                 name:_NotificationID
+                                               object:nil];
 }
 
 - (void)createUIWithDefalut{
@@ -389,10 +421,6 @@ YWTableExcelCellDelegate>
 }
 - (void)setOutsideBorderWidth:(CGFloat)outsideBorderWidth{
     _contentView.layer.borderWidth = outsideBorderWidth;
-}
-- (void)setSelectionStyle:(YWTableExcelViewCellSelectionStyle)selectionStyle{
-    _selectionStyle = selectionStyle;
-    _cellConfig.selectionStyle = selectionStyle;
 }
 - (void)setTableHeaderView:(UIView *)tableHeaderView{
     [_contentView.superview removeConstraint:_top];
