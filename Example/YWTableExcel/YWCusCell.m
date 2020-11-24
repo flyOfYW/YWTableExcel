@@ -20,7 +20,11 @@
 
     // Configure the view for the selected state
 }
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier fixed:(NSArray<YWColumnMode *> *)fixedColumn slide:(NSArray<YWColumnMode *> *)slideColumn cellConfig:(YWExcelCellConfig *)config{
+- (instancetype)initWithStyle:(UITableViewCellStyle)style
+              reuseIdentifier:(NSString *)reuseIdentifier
+                        fixed:(NSArray<YWColumnMode *> *)fixedColumn
+                        slide:(NSArray<YWColumnMode *> *)slideColumn
+                   cellConfig:(YWExcelCellConfig *)config{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier fixed:fixedColumn slide:slideColumn cellConfig:config];
     if (self) {
         self.selectedBackgroundView = [UIView new];

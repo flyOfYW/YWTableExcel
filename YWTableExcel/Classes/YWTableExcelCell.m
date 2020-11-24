@@ -46,33 +46,20 @@ NSString *const YW_EXCEL_NOTIFI_KEY = @"YWCellOffX";;
     [_collectionView reloadData];
     for (int i = 0 ; i < _fixedColumn.count; i ++) {
         YWColumnMode *columnModel = fixedColumn[i];
-        if (_config.columnStyle == YWTableExcelViewColumnStyleText) {
+        if (_config.columnStyle != YWTableExcelViewColumnStyleBtn) {
             UILabel *label = [self.contentView viewWithTag:100 + i];
             label.text = columnModel.text;
             label.mode = columnModel;
-            if (_config.selectionStyle == 2) {
-                if (columnModel.selected) {
-                    label.backgroundColor = columnModel.selectedBackgroundColor;
-                }else{
-                    label.backgroundColor = columnModel.backgroundColor;
-                }
-            }else{
-                label.backgroundColor = columnModel.backgroundColor;
-            }
+            label.backgroundColor = columnModel.backgroundColor;
         }else{
             UIButton *btn = [self.contentView viewWithTag:100 + i];
             btn.mode = columnModel;
             [btn setTitle:columnModel.text forState:UIControlStateNormal];
-            if (_config.selectionStyle == 2) {
-                if (columnModel.selected) {
-                    btn.backgroundColor = columnModel.selectedBackgroundColor;
-                }else{
-                    btn.backgroundColor = columnModel.backgroundColor;
-                }
+            if (columnModel.selected) {
+                btn.backgroundColor = columnModel.selectedBackgroundColor;
             }else{
                 btn.backgroundColor = columnModel.backgroundColor;
             }
-
         }
     }
 }
@@ -97,9 +84,10 @@ NSString *const YW_EXCEL_NOTIFI_KEY = @"YWCellOffX";;
     return _slideData.count;
 }
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    YWTableExcelViewColl *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"YWTableExcelViewColl" forIndexPath:indexPath];
-    cell.menuLabel.layer.borderWidth = _config.columnBorderWidth;
-    cell.menuLabel.layer.borderColor = _config.columnBorderColor.CGColor;
+    YWTableExcelViewColl *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"YWTableExcelViewColl"
+                                                                           forIndexPath:indexPath];
+    cell.menuLabel.borderWidth = _config.columnBorderWidth;
+    cell.menuLabel.borderColor = _config.columnBorderColor;
     if (indexPath.row < _slideData.count) {
         YWColumnMode *model = _slideData[indexPath.row];
         cell.menuLabel.textColor = model.textColor;
@@ -108,12 +96,8 @@ NSString *const YW_EXCEL_NOTIFI_KEY = @"YWCellOffX";;
         }else{
             cell.menuLabel.text = @"";
         }
-        if (_config.selectionStyle == 2) {
-            if (model.selected) {
-                cell.contentView.backgroundColor = model.selectedBackgroundColor;
-            }else{
-                cell.contentView.backgroundColor = model.backgroundColor;
-            }
+        if (model.selected) {
+            cell.contentView.backgroundColor = model.selectedBackgroundColor;
         }else{
             cell.contentView.backgroundColor = model.backgroundColor;
         }
@@ -174,7 +158,9 @@ NSString *const YW_EXCEL_NOTIFI_KEY = @"YWCellOffX";;
 {
     if (!_isAllowedNotification) {//是自身才发通知去tableView以及其他的cell
         // 发送通知
-        [[NSNotificationCenter defaultCenter] postNotificationName:_config.notifiKey object:self userInfo:@{YW_EXCEL_NOTIFI_KEY:@(scrollView.contentOffset.x)}];
+        [[NSNotificationCenter defaultCenter] postNotificationName:_config.notifiKey
+                                                            object:self
+                                                          userInfo:@{YW_EXCEL_NOTIFI_KEY:@(scrollView.contentOffset.x)}];
     }
     _isAllowedNotification = NO;
 }
@@ -201,25 +187,27 @@ NSString *const YW_EXCEL_NOTIFI_KEY = @"YWCellOffX";;
     NSInteger index = 0;
     for (YWColumnMode *column in fixedColumnList) {
         UIView *titleLbl = nil;
-        if (_config.columnStyle == YWTableExcelViewColumnStyleText) {
-            UILabel *lbl = [UILabel new];
+        if (_config.columnStyle != YWTableExcelViewColumnStyleBtn) {
+            YWDrawLabel *lbl = [YWDrawLabel new];
             lbl.font = [UIFont systemFontOfSize:14];
             lbl.textAlignment = NSTextAlignmentCenter;
             lbl.textColor = column.textColor;
             lbl.tag = 100 + index;
             titleLbl = lbl;
+            lbl.borderWidth = _config.columnBorderWidth;
+            lbl.borderColor = _config.columnBorderColor;
         }else{
-            UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+            YWDrawButton *btn = [YWDrawButton buttonWithType:UIButtonTypeCustom];
             btn.titleLabel.font = [UIFont systemFontOfSize:14];
             [btn setTitleColor:column.textColor forState:UIControlStateNormal];
             btn.mode = column;
             btn.tag = 100 + index;
             [btn addTarget:self action:@selector(clickColumn:) forControlEvents:UIControlEventTouchUpInside];
             titleLbl = btn;
+            btn.borderWidth = _config.columnBorderWidth;
+            btn.borderColor = _config.columnBorderColor;
         }
         titleLbl.backgroundColor = column.backgroundColor;
-        titleLbl.layer.borderWidth = _config.columnBorderWidth;;
-        titleLbl.layer.borderColor = _config.columnBorderColor.CGColor;
         [self.contentView addSubview:titleLbl];
         if (currentLabel == nil) {
             [titleLbl addConstraint:NSLayoutAttributeLeft equalTo:self.contentView offset:0];
@@ -272,7 +260,9 @@ NSString *const YW_EXCEL_NOTIFI_KEY = @"YWCellOffX";;
 }
 
 - (void)dealloc{
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:_config.notifiKey object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:_config.notifiKey
+                                                  object:nil];
 }
 //多种手势处理
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch{

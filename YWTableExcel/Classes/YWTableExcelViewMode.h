@@ -84,8 +84,6 @@ __attribute__((objc_subclassing_restricted))
 /**单元格的边框颜色*/
 @property (nonatomic,strong,nullable) UIColor *columnBorderColor;
 
-@property (nonatomic,assign) NSInteger selectionStyle;
-
 //针对每一行底部线的颜色
 @property (nonatomic,strong, nullable) UIColor *lineViewColor;
 //针对每一行底部线，支持设置个性图片

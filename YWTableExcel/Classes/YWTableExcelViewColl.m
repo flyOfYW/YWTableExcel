@@ -18,10 +18,12 @@
 - (instancetype)initWithFrame:(CGRect)frame{
    self = [super initWithFrame:frame];
     if (self) {
-        _menuLabel = [UILabel new];
-        _menuLabel.font = [UIFont systemFontOfSize:15];
-        _menuLabel.textAlignment = NSTextAlignmentCenter;
-        [self.contentView addSubview:_menuLabel];
+        YWDrawLabel *menuLabel = [YWDrawLabel new];
+        menuLabel.font = [UIFont systemFontOfSize:15];
+        menuLabel.textAlignment = NSTextAlignmentCenter;
+        [self.contentView addSubview:menuLabel];
+        _menuLabel = menuLabel;
+        
         [_menuLabel addConstraint:NSLayoutAttributeLeft equalTo:self.contentView offset:0];
         [_menuLabel addConstraint:NSLayoutAttributeTop equalTo:self.contentView offset:0];
         [_menuLabel addConstraint:NSLayoutAttributeWidth equalTo:self.contentView offset:0];

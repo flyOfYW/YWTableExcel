@@ -147,20 +147,18 @@ YWTableExcelCellDelegate>
     _lastSelectedTableViewIndexPath = cell_indexPath;
 }
 - (void)clickExcelWhenFixed:(YWTableExcelCell *)cell column:(NSInteger)column{
-    if (_cellConfig.selectionStyle == 2) {//单元格选中颜色与否操作
-        [self clickExcelCommonAction];
-        [cell selectedItemAtIndexPath:nil fixedItem:column];
-        _lastSelectedIndexPath = nil;
-        _lastColumn = column;
-    }
+    //单元格选中颜色与否操作
+    [self clickExcelCommonAction];
+    [cell selectedItemAtIndexPath:nil fixedItem:column];
+    _lastSelectedIndexPath = nil;
+    _lastColumn = column;
 }
 - (void)clickExcelWhenSlide:(YWTableExcelCell *)cell collectionViewForIndexPath:(NSIndexPath *)indexPath column:(NSInteger)column{
-    if (_cellConfig.selectionStyle == 2) {//单元格选中颜色与否操作
-        [self clickExcelCommonAction];
-        [cell selectedItemAtIndexPath:indexPath fixedItem:0];
-        _lastSelectedIndexPath = indexPath;
-        _lastColumn = -100;
-    }
+    //单元格选中颜色与否操作
+    [self clickExcelCommonAction];
+    [cell selectedItemAtIndexPath:indexPath fixedItem:0];
+    _lastSelectedIndexPath = indexPath;
+    _lastColumn = -100;
 }
 - (void)clickExcelCommonAction{
     if ( _lastSelectedTableViewIndexPath) {
@@ -249,17 +247,19 @@ YWTableExcelCellDelegate>
 }
 
 - (void)createUIWithDefalut{
+    _bounces = NO;
     if (_mode.sectionStyle == YWTableExcelViewSectionStylePlain) {
         _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     }else if (_mode.sectionStyle == YWTableExcelViewSectionStyleGrouped){
         _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
-    }else if (@available(iOS 13.0, *)) {
-        if (_mode.sectionStyle == YWTableExcelViewSectionStyleInsetGrouped){
+    }else{
+        if (@available(iOS 13.0, *)) {
+            if (_mode.sectionStyle == YWTableExcelViewSectionStyleInsetGrouped){
+                _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleInsetGrouped];
+            }
+        } else {
             _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
-            //            _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleInsetGrouped];
         }
-    } else {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     }
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _headView = [[YWTableExcelViewHeaderView alloc] initWithReuseIdentifier:nil cellConfig:_cellConfig];
@@ -269,6 +269,7 @@ YWTableExcelCellDelegate>
     _tableView.sectionFooterHeight = 0.000001f;
     _tableView.dataSource = self;
     _tableView.delegate = self;
+    _tableView.bounces = _bounces;
     [_contentView addSubview:_tableView];
     
     [_headView addConstraint:NSLayoutAttributeLeft equalTo:_contentView offset:0];
@@ -442,10 +443,9 @@ YWTableExcelCellDelegate>
     [tableFooterView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:CGRectGetHeight(tableFooterView.frame)];
     [self setNeedsLayout];
 }
-
-- (void)layoutSubviews{
-    [super layoutSubviews];
-    
+- (void)setBounces:(BOOL)bounces{
+    _bounces = bounces;
+    _tableView.bounces = bounces;
 }
 - (UIView *)contentView{
     if (!_contentView) {

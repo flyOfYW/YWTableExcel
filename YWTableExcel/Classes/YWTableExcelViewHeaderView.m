@@ -36,7 +36,7 @@
     [_collectionView reloadData];
     for (int i = 0 ; i < _fixedColumn.count; i ++) {
         YWColumnMode *columnModel = fixedColumn[i];
-        if (_config.columnStyle == YWTableExcelViewColumnStyleText) {
+        if (_config.columnStyle != YWTableExcelViewColumnStyleBtn) {
             UILabel *label = [self viewWithTag:100 + i];
             label.text = columnModel.text;
         }else{
@@ -50,9 +50,10 @@
     return _slideColumn.count;
 }
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    YWTableExcelViewColl *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"defalutHeadCell" forIndexPath:indexPath];
-    cell.menuLabel.layer.borderWidth = _config.columnBorderWidth;
-    cell.menuLabel.layer.borderColor = _config.columnBorderColor.CGColor;
+    YWTableExcelViewColl *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"defalutHeadCell"
+                                                                           forIndexPath:indexPath];
+    cell.menuLabel.borderWidth = _config.columnBorderWidth;
+    cell.menuLabel.borderColor = _config.columnBorderColor;
     if (indexPath.row < _slideColumn.count) {
         YWColumnMode *columnModel = _slideColumn[indexPath.row];
         cell.contentView.backgroundColor = columnModel.backgroundColor;
@@ -74,7 +75,9 @@
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
     if (!_isAllowedNotification) {//是自身才发通知去tableView以及其他的cell
         // 发送通知
-        [[NSNotificationCenter defaultCenter] postNotificationName:_config.notifiKey object:self userInfo:@{YW_EXCEL_NOTIFI_KEY:@(scrollView.contentOffset.x)}];
+        [[NSNotificationCenter defaultCenter] postNotificationName:_config.notifiKey
+                                                            object:self
+                                                          userInfo:@{YW_EXCEL_NOTIFI_KEY:@(scrollView.contentOffset.x)}];
     }
     _isAllowedNotification = NO;
 }
@@ -110,7 +113,10 @@
         _slideColumn = slideColumn;
         _fixedColumn = fixedColumn;
         [self prepareInitFixed:fixedColumn slide:slideColumn];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(scrollMove:) name:_config.notifiKey object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(scrollMove:)
+                                                     name:_config.notifiKey
+                                                   object:nil];
     }
     return self;
 }
@@ -118,7 +124,10 @@
     self = [super initWithReuseIdentifier:reuseIdentifier];
     if (self) {
         _config = config;
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(scrollMove:) name:_config.notifiKey object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(scrollMove:)
+                                                     name:_config.notifiKey
+                                                   object:nil];
     }
     return self;
 }
@@ -134,26 +143,28 @@
     NSInteger index = 0;
     for (YWColumnMode *column in fixedColumnList) {
         UIView *titleLbl = nil;
-        if (_config.columnStyle == YWTableExcelViewColumnStyleText) {
-            UILabel *lbl = [UILabel new];
+        if (_config.columnStyle != YWTableExcelViewColumnStyleBtn) {
+            YWDrawLabel *lbl = [YWDrawLabel new];
             lbl.text = column.text;
             lbl.font = [UIFont systemFontOfSize:14];
             lbl.textAlignment = NSTextAlignmentCenter;
             lbl.textColor = column.textColor;
             lbl.tag = 100 + index;
             titleLbl = lbl;
+            lbl.borderWidth = _config.columnBorderWidth;
+            lbl.borderColor = _config.columnBorderColor;
         }else{
-            UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+            YWDrawButton *btn = [YWDrawButton buttonWithType:UIButtonTypeCustom];
             btn.titleLabel.font = [UIFont systemFontOfSize:14];
             [btn setTitleColor:column.textColor forState:UIControlStateNormal];
             btn.mode = column;
             [btn setTitle:column.text forState:UIControlStateNormal];
             btn.tag = 100 + index;
             titleLbl = btn;
+            btn.borderWidth = _config.columnBorderWidth;
+            btn.borderColor = _config.columnBorderColor;
         }
         titleLbl.backgroundColor = column.backgroundColor;
-        titleLbl.layer.borderColor = _config.columnBorderColor.CGColor;
-        titleLbl.layer.borderWidth = _config.columnBorderWidth;
         [self addSubview:titleLbl];
         if (currentLabel == nil) {
             [titleLbl addConstraint:NSLayoutAttributeLeft equalTo:self offset:padding];

@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+@class YWDrawLabel;
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface YWTableExcelViewColl : UICollectionViewCell
-@property (nonatomic, strong) UILabel *menuLabel;
+@property (nonatomic,  weak) YWDrawLabel *menuLabel;
 @end
 
 NS_ASSUME_NONNULL_END

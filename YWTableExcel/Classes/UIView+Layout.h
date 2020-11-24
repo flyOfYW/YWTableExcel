@@ -14,6 +14,22 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+
+@interface YWDrawLabel : UILabel
+@property (strong, nonatomic) UIColor *borderColor;
+@property (assign, nonatomic) CGFloat  borderWidth;
+@end
+
+
+
+@interface YWDrawButton : UIButton
+@property (strong, nonatomic) UIColor *borderColor;
+@property (assign, nonatomic) CGFloat  borderWidth;
+@end
+
+
+
+
 @interface UIView (Layout)
 
 @property (nonatomic, strong) YWColumnMode * mode;
@@ -24,9 +40,24 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)addLayoutConstraint:(NSLayoutConstraint *)constraint;
 @end
 
+@interface UIView (YW_Draw)
+
+@property (nonatomic, strong ,nullable) CALayer *yw_Layer;
+
+- (void)drawStroke:(CGRect)rect
+       strokeColor:(UIColor *)strokeColor
+         fillColor:(UIColor *)fillColor
+         lineWidth:(CGFloat)lineWidth;
+@end
+
+
+
 
 @interface NSIndexPath (Colunmn)
 @property (nonatomic, assign) NSInteger colunmn;
 
 @end
+
+
+
 NS_ASSUME_NONNULL_END
