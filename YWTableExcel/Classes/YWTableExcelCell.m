@@ -50,7 +50,6 @@ NSString *const YW_EXCEL_NOTIFI_KEY = @"YWCellOffX";;
             UILabel *label = [self.contentView viewWithTag:100 + i];
             label.text = columnModel.text;
             label.mode = columnModel;
-            label.backgroundColor = columnModel.backgroundColor;
         }else{
             UIButton *btn = [self.contentView viewWithTag:100 + i];
             btn.mode = columnModel;
@@ -76,7 +75,9 @@ NSString *const YW_EXCEL_NOTIFI_KEY = @"YWCellOffX";;
         _slideColumn = slideColumn;
         _fixedColumn = fixedColumn;
         [self prepareInitFixed:fixedColumn slide:slideColumn];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(scrollMove:) name:_config.notifiKey object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(scrollMove:)
+                                                     name:_config.notifiKey object:nil];
     }
     return self;
 }
@@ -107,7 +108,9 @@ NSString *const YW_EXCEL_NOTIFI_KEY = @"YWCellOffX";;
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     if (_config.columnStyle == YWTableExcelViewColumnStyleBtn) {
         if (indexPath.row < _slideData.count) {
-            [_delegate clickExcel:self collectionViewForIndexPath:indexPath column:indexPath.row + _fixedColumn.count];
+            [_delegate clickExcel:self
+       collectionViewForIndexPath:indexPath
+                           column:indexPath.row + _fixedColumn.count];
         }
     }else if(_config.columnStyle == YWTableExcelViewLineStyleText){
         if (self.collClick) {
@@ -193,9 +196,9 @@ NSString *const YW_EXCEL_NOTIFI_KEY = @"YWCellOffX";;
             lbl.textAlignment = NSTextAlignmentCenter;
             lbl.textColor = column.textColor;
             lbl.tag = 100 + index;
-            titleLbl = lbl;
             lbl.borderWidth = _config.columnBorderWidth;
             lbl.borderColor = _config.columnBorderColor;
+            titleLbl = lbl;
         }else{
             YWDrawButton *btn = [YWDrawButton buttonWithType:UIButtonTypeCustom];
             btn.titleLabel.font = [UIFont systemFontOfSize:14];
@@ -203,11 +206,11 @@ NSString *const YW_EXCEL_NOTIFI_KEY = @"YWCellOffX";;
             btn.mode = column;
             btn.tag = 100 + index;
             [btn addTarget:self action:@selector(clickColumn:) forControlEvents:UIControlEventTouchUpInside];
-            titleLbl = btn;
             btn.borderWidth = _config.columnBorderWidth;
             btn.borderColor = _config.columnBorderColor;
+            btn.backgroundColor = column.backgroundColor;
+            titleLbl = btn;
         }
-        titleLbl.backgroundColor = column.backgroundColor;
         [self.contentView addSubview:titleLbl];
         if (currentLabel == nil) {
             [titleLbl addConstraint:NSLayoutAttributeLeft equalTo:self.contentView offset:0];

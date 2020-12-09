@@ -92,6 +92,10 @@ typedef NS_ENUM(NSInteger, YWTableExcelViewHeaderInSectionMode) {
 @property (nonatomic, strong, nullable) UIView *tableFooterView;
 /**contentView outside border*/
 @property (nonatomic, strong, nullable) UIColor *outsideBorder;
+
+/**固定行的背景颜色*/
+@property (nonatomic, strong, nullable) UIColor *fixedHeaderColor;
+
 /**contentView outside border width*/
 @property (nonatomic, assign) CGFloat outsideBorderWidth;
 /**list view bounces ,defalut is NO */

@@ -27,15 +27,17 @@ typedef NS_ENUM(NSInteger, YWTableExcelViewSectionStyle) {
 @property (nonatomic, copy,nullable) NSString *text;
 /**列的宽度*/
 @property (nonatomic, assign) CGFloat width;
-/**背景颜色*/
-@property (nonatomic, strong,nullable) UIColor *backgroundColor;
-/**文字颜色*/
-@property (nonatomic, strong) UIColor *textColor;
 /**是否选中(内部使用)*/
 @property (nonatomic, assign) BOOL selected;
+
+/**文字颜色*/
+@property (nonatomic, strong) UIColor *textColor;
+
+//YWTableExcelViewColumnStyleBtn模式下有效
 /**选中背景颜色*/
 @property (nonatomic, strong,nullable) UIColor *selectedBackgroundColor;
-
+/**背景颜色*/
+@property (nonatomic, strong,nullable) UIColor *backgroundColor;
 
 @end
 

@@ -19,10 +19,9 @@
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-        
+    
     self.view.backgroundColor = [UIColor whiteColor];
-
-
+    
     
     NSArray *arr1 = @[@"语文",@"数学",@"物理",@"化学",@"生物",@"英语",@"政治"];
     _slideColumnList = [NSMutableArray new];
@@ -32,7 +31,7 @@
         model1.width = 100;
         [self.slideColumnList addObject:model1];
     }
-
+    
     _slideList = @[].mutableCopy;
     for (int j = 0; j < 20; j ++) {
         NSMutableArray *cloumnList = @[].mutableCopy;
@@ -59,10 +58,10 @@
     [self.view addSubview:_excelView];
     
     [_excelView addConstraint:NSLayoutAttributeLeft equalTo:self.view offset:10];
-     [_excelView addConstraint:NSLayoutAttributeTop equalTo:self.view offset:80];
-     [_excelView addConstraint:NSLayoutAttributeRight equalTo:self.view offset:-10];
-     [_excelView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:240];
-
+    [_excelView addConstraint:NSLayoutAttributeTop equalTo:self.view offset:100];
+    [_excelView addConstraint:NSLayoutAttributeRight equalTo:self.view offset:-10];
+    [_excelView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:240];
+    
     
 }
 - (NSArray<YWColumnMode *> *)tableExcelView:(YWTableExcelView *)excelView titleForFixedHeaderInSection:(NSInteger)section{

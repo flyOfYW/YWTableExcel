@@ -83,7 +83,7 @@
     [self.view addSubview:_excelView];
             
     [_excelView addConstraint:NSLayoutAttributeLeft equalTo:self.view offset:10];
-    [_excelView addConstraint:NSLayoutAttributeTop equalTo:self.view offset:80];
+    [_excelView addConstraint:NSLayoutAttributeTop equalTo:self.view offset:100];
     [_excelView addConstraint:NSLayoutAttributeRight equalTo:self.view offset:-10];
     [_excelView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:300];
 

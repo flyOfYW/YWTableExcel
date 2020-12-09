@@ -92,7 +92,7 @@
     _excelView.outsideBorder = [UIColor redColor];
     
     [_excelView addConstraint:NSLayoutAttributeLeft equalTo:self.view offset:10];
-    [_excelView addConstraint:NSLayoutAttributeTop equalTo:self.view offset:80];
+    [_excelView addConstraint:NSLayoutAttributeTop equalTo:self.view offset:100];
     [_excelView addConstraint:NSLayoutAttributeRight equalTo:self.view offset:-10];
     [_excelView addConstraint:NSLayoutAttributeBottom equalTo:self.view offset:-40];
 

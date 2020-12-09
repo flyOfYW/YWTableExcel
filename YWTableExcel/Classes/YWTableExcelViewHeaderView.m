@@ -150,9 +150,9 @@
             lbl.textAlignment = NSTextAlignmentCenter;
             lbl.textColor = column.textColor;
             lbl.tag = 100 + index;
-            titleLbl = lbl;
             lbl.borderWidth = _config.columnBorderWidth;
             lbl.borderColor = _config.columnBorderColor;
+            titleLbl = lbl;
         }else{
             YWDrawButton *btn = [YWDrawButton buttonWithType:UIButtonTypeCustom];
             btn.titleLabel.font = [UIFont systemFontOfSize:14];
@@ -160,11 +160,11 @@
             btn.mode = column;
             [btn setTitle:column.text forState:UIControlStateNormal];
             btn.tag = 100 + index;
-            titleLbl = btn;
             btn.borderWidth = _config.columnBorderWidth;
             btn.borderColor = _config.columnBorderColor;
+            btn.backgroundColor = column.backgroundColor;
+            titleLbl = btn;
         }
-        titleLbl.backgroundColor = column.backgroundColor;
         [self addSubview:titleLbl];
         if (currentLabel == nil) {
             [titleLbl addConstraint:NSLayoutAttributeLeft equalTo:self offset:padding];

@@ -24,6 +24,9 @@
         
     self.view.backgroundColor = [UIColor whiteColor];
 
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"reload" style:UIBarButtonItemStyleDone target:self action:@selector(reloadAction)];
+    
     // Do any additional setup after loading the view, typically from a nib.
     NSArray *arr = @[@"固定1",@"固定2"];
     _fixedColumnList = [NSMutableArray new];
@@ -69,8 +72,6 @@
     
     YWTableExcelViewMode *mode = [YWTableExcelViewMode new];
     mode.columnStyle = YWTableExcelViewColumnStyleText;
-//    mode.columnBorderWidth = 0.5;
-//    mode.columnBorderColor = [UIColor blueColor];
     mode.lineColor = [UIColor redColor];
     
     _excelView = [[YWTableExcelView alloc] initWithFrame:CGRectZero withMode:mode];
@@ -83,12 +84,18 @@
     [self.view addSubview:_excelView];
             
     [_excelView addConstraint:NSLayoutAttributeLeft equalTo:self.view offset:10];
-    [_excelView addConstraint:NSLayoutAttributeTop equalTo:self.view offset:80];
+    [_excelView addConstraint:NSLayoutAttributeTop equalTo:self.view offset:100];
     [_excelView addConstraint:NSLayoutAttributeRight equalTo:self.view offset:-10];
     [_excelView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:300];
 
-    //默认选中第一行
-    [_excelView selectRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
+//    _excelView.fixedHeaderColor = [UIColor redColor];
+}
+- (void)reloadAction{
+    //目前只支持动态移除横向可滑动区域的列数
+    if (_slideColumnList.count > 3) {
+        [_slideColumnList removeObjectAtIndex:2];
+        [_excelView reloadData];
+    }
 }
 - (NSArray<YWColumnMode *> *)tableExcelView:(YWTableExcelView *)excelView titleForFixedHeaderInSection:(NSInteger)section{
     return _fixedColumnList;
