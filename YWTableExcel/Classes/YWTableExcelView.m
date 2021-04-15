@@ -147,11 +147,7 @@ YWTableExcelCellDelegate>
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (_delegateHas.heightForRowAtIndexPath) {
-        CGFloat height = [_delegate tableExcelView:self heightForRowAtIndexPath:indexPath];
-        if (height < _cellConfig.defalutHeight) {//比默认小，则高度无效
-            return _cellConfig.defalutHeight;
-        }
-        return height;
+        return [_delegate tableExcelView:self heightForRowAtIndexPath:indexPath];
     }
     return _cellConfig.defalutHeight;
 }
