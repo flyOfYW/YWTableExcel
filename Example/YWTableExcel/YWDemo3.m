@@ -127,6 +127,9 @@
 - (CGFloat)tableExcelView:(YWTableExcelView *)excelView heightForHeaderInSection:(NSInteger)section{
     return 30.f;
 }
+-(CGFloat)tableExcelView:(YWTableExcelView *)excelView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 30;
+}
 - (void)dealloc{
     NSLog(@"%s",__func__);
 }

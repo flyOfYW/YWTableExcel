@@ -105,6 +105,7 @@
 - (NSArray<YWColumnMode *> *)tableExcelView:(YWTableExcelView *)excelView slideCellForRowAtIndexPath:(NSIndexPath *)indexPath{
     return _slideList[indexPath.row];
 }
+
 - (void)dealloc{
     NSLog(@"%s",__func__);
 }

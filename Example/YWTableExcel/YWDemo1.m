@@ -10,6 +10,9 @@
 #import <YWTableExcel/YWTableExcelView.h>
 
 @interface YWDemo1 ()<YWTableExcelViewDataSource,YWTableExcelViewDelegate>
+{
+    CGFloat _th;
+}
 @property (nonatomic, strong) YWTableExcelView *excelView;
 @property (nonatomic, strong) NSMutableArray <YWColumnMode *> *fixedColumnList;
 @property (nonatomic, strong) NSMutableArray <YWColumnMode *> *slideColumnList;
@@ -21,11 +24,13 @@
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-        
+    _th = 40;
     self.view.backgroundColor = [UIColor whiteColor];
-
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"reload" style:UIBarButtonItemStyleDone target:self action:@selector(reloadAction)];
+    UIBarButtonItem *itme1 = [[UIBarButtonItem alloc] initWithTitle:@"reload" style:UIBarButtonItemStyleDone target:self action:@selector(reloadAction)];
+    UIBarButtonItem *itme2 = [[UIBarButtonItem alloc] initWithTitle:@"row height" style:UIBarButtonItemStyleDone target:self action:@selector(changeHeightAction)];
+    
+    self.navigationItem.rightBarButtonItems = @[itme1,itme2];
     
     // Do any additional setup after loading the view, typically from a nib.
     NSArray *arr = @[@"固定1",@"固定2"];
@@ -51,6 +56,7 @@
         for (int i = 0; i < 2; i ++) {
             YWColumnMode *model1 = [YWColumnMode new];
             model1.text = [NSString stringWithFormat:@"%d行%d列",j,i];
+            model1.width = 100;
             model1.selectedBackgroundColor = [UIColor redColor];
             [cloumnList addObject:model1];
         }
@@ -82,13 +88,13 @@
     _excelView.dividerColor = [UIColor redColor];
     _excelView.layer.borderWidth = 1;
     [self.view addSubview:_excelView];
-            
+    
     [_excelView addConstraint:NSLayoutAttributeLeft equalTo:self.view offset:10];
     [_excelView addConstraint:NSLayoutAttributeTop equalTo:self.view offset:100];
     [_excelView addConstraint:NSLayoutAttributeRight equalTo:self.view offset:-10];
     [_excelView addConstraint:NSLayoutAttributeHeight equalTo:nil offset:300];
-
-//    _excelView.fixedHeaderColor = [UIColor redColor];
+    
+    //    _excelView.fixedHeaderColor = [UIColor redColor];
 }
 - (void)reloadAction{
     //目前只支持动态移除横向可滑动区域的列数
@@ -96,6 +102,16 @@
         [_slideColumnList removeObjectAtIndex:2];
         [_excelView reloadData];
     }
+}
+- (void)changeHeightAction{
+    if (_th < 200) {
+        _th += 20;
+    }else{
+        if (_th > 40) {
+            _th -= 20;
+        }
+    }
+    [_excelView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:0]]];
 }
 - (NSArray<YWColumnMode *> *)tableExcelView:(YWTableExcelView *)excelView titleForFixedHeaderInSection:(NSInteger)section{
     return _fixedColumnList;
@@ -111,6 +127,12 @@
 }
 - (NSArray<YWColumnMode *> *)tableExcelView:(YWTableExcelView *)excelView slideCellForRowAtIndexPath:(NSIndexPath *)indexPath{
     return _slideList[indexPath.row];
+}
+-(CGFloat)tableExcelView:(YWTableExcelView *)excelView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.row == 1) {
+        return _th;
+    }
+    return 40;
 }
 - (void)dealloc{
     NSLog(@"%s",__func__);

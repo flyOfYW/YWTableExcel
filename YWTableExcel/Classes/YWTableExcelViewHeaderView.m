@@ -183,7 +183,7 @@
     if (slideColumnList.count > 0) {
         YWColumnMode *column = slideColumnList.firstObject;
         UICollectionViewFlowLayout *layout = [UICollectionViewFlowLayout new];
-        layout.itemSize = CGSizeMake(column.width, 40);
+        layout.itemSize = CGSizeMake(column.width, _config.defalutHeight);
         layout.minimumInteritemSpacing = padding;
         layout.minimumLineSpacing = padding;
         [layout setScrollDirection:UICollectionViewScrollDirectionHorizontal];

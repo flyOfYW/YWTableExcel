@@ -23,6 +23,7 @@ YWTableExcelCellDelegate>
         unsigned excelViewForHeaderInSectionMode : 1;
         unsigned viewForHeaderInSection : 1;
         unsigned heightForHeaderInSection : 1;
+        unsigned heightForRowAtIndexPath : 1;
     } _delegateHas;
     NSMutableArray *_list;
     BOOL _isAddheadView;
@@ -70,6 +71,9 @@ YWTableExcelCellDelegate>
 }
 - (void)reloadContentData{
     [_tableView reloadData];
+}
+- (void)reloadRowsAtIndexPaths:(NSArray<NSIndexPath *> *)indexPaths{
+    [_tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 - (void)selectRowAtIndexPath:(nullable NSIndexPath *)indexPath animated:(BOOL)animated scrollPosition:(UITableViewScrollPosition)scrollPosition{
     [self.tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:scrollPosition];
@@ -140,6 +144,16 @@ YWTableExcelCellDelegate>
         }
     }
     return 0.0001f;
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (_delegateHas.heightForRowAtIndexPath) {
+        CGFloat height = [_delegate tableExcelView:self heightForRowAtIndexPath:indexPath];
+        if (height < _cellConfig.defalutHeight) {//比默认小，则高度无效
+            return _cellConfig.defalutHeight;
+        }
+        return height;
+    }
+    return _cellConfig.defalutHeight;
 }
 //YWTableExcelViewColumnStyleBtn
 - (void)clickExcel:(YWTableExcelCell *)cell collectionViewForIndexPath:(NSIndexPath *)indexPath column:(NSInteger)column{
@@ -226,6 +240,7 @@ YWTableExcelCellDelegate>
     _cellConfig.lineViewColor = mode.lineColor;
     _cellConfig.lineViewImage = mode.lineImage;
     _cellConfig.lineViewHeight = mode.lineHeight;
+    _cellConfig.defalutHeight = mode.defalutHeight;
     
     [self addSubview:self.contentView];
     [_contentView addConstraint:NSLayoutAttributeLeft equalTo:self offset:0];
@@ -409,6 +424,7 @@ YWTableExcelCellDelegate>
     _delegateHas.excelViewForHeaderInSectionMode = [delegate respondsToSelector:@selector(tableExcelView:modeForHeaderInSection:)];
     _delegateHas.viewForHeaderInSection = [delegate respondsToSelector:@selector(tableExcelView:viewForHeaderInSection:)];
     _delegateHas.heightForHeaderInSection = [delegate respondsToSelector:@selector(tableExcelView:heightForHeaderInSection:)];
+    _delegateHas.heightForRowAtIndexPath = [delegate respondsToSelector:@selector(tableExcelView:heightForRowAtIndexPath:)];
 }
 - (void)setAddverticalDivider:(BOOL)addverticalDivider{
     _addverticalDivider = addverticalDivider;

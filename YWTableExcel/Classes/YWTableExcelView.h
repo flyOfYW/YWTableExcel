@@ -46,6 +46,7 @@ typedef NS_ENUM(NSInteger, YWTableExcelViewHeaderInSectionMode) {
 /// @param excelView YWTableExcelView
 /// @param indexPath indexPath
 - (nullable NSArray <YWColumnMode *>*)tableExcelView:(YWTableExcelView *)excelView slideCellForRowAtIndexPath:(NSIndexPath *)indexPath;
+
 @end
 
 
@@ -68,6 +69,10 @@ typedef NS_ENUM(NSInteger, YWTableExcelViewHeaderInSectionMode) {
 /// @param indexPath indexPath(section-组|row-行|colunmn-列)
 - (void)tableExcelView:(YWTableExcelView *)tableView didSelectColumnAtIndexPath:(NSIndexPath *)indexPath;
 
+/// 每一行的高度
+/// @param excelView excelView
+/// @param indexPath indexPath
+- (CGFloat )tableExcelView:(YWTableExcelView *)excelView heightForRowAtIndexPath:(NSIndexPath *)indexPath;
 @end
 
 @interface YWTableExcelView : UIView
@@ -121,6 +126,9 @@ typedef NS_ENUM(NSInteger, YWTableExcelViewHeaderInSectionMode) {
 - (void)reloadContentData;
 /// 刷新整个表
 - (void)reloadData;
+/// 刷新某行【指定列无效】
+/// @param indexPaths 集合
+- (void)reloadRowsAtIndexPaths:(NSArray<NSIndexPath *> *)indexPaths;
 /// 选中某一行
 /// @param indexPath indexPath
 /// @param animated animated

@@ -105,6 +105,15 @@ NSString *const YW_EXCEL_NOTIFI_KEY = @"YWCellOffX";;
     }
     return cell;
 }
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.row < _slideColumn.count) {
+        YWColumnMode *model = _slideColumn[indexPath.row];
+        CGFloat hi = collectionView.frame.size.height;
+        return CGSizeMake(model.width, hi <= 5 ? _config.defalutHeight : hi);
+    }
+    YWColumnMode *model =  _slideColumn.firstObject;
+    return CGSizeMake(model.width, _config.defalutHeight);
+}
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     if (_config.columnStyle == YWTableExcelViewColumnStyleBtn) {
         if (indexPath.row < _slideData.count) {
@@ -227,9 +236,9 @@ NSString *const YW_EXCEL_NOTIFI_KEY = @"YWCellOffX";;
         index += 1;
     }
     if (slideColumnList.count > 0) {
-        YWColumnMode *column = slideColumnList.firstObject;
+//        YWColumnMode *column = slideColumnList.firstObject;
         UICollectionViewFlowLayout *layout = [UICollectionViewFlowLayout new];
-        layout.itemSize = CGSizeMake(column.width, 40);
+//        layout.itemSize = CGSizeMake(column.width, _config.defalutHeight);
         [layout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
         layout.minimumInteritemSpacing = 0;
         layout.minimumLineSpacing = 0;

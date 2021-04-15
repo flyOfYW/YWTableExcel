@@ -93,6 +93,9 @@ __attribute__((objc_subclassing_restricted))
 //针对每一行底部线
 @property (nonatomic,assign          ) CGFloat lineViewHeight;
 
+//行高
+@property (nonatomic,assign          ) CGFloat defalutHeight;
+
 
 
 @end
