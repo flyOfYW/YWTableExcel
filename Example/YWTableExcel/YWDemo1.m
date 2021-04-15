@@ -39,6 +39,7 @@
         YWColumnMode *model1 = [YWColumnMode new];
         model1.text = ts;
         model1.width = 60;
+        model1.backgroundColor = [UIColor redColor];
         [self.fixedColumnList addObject:model1];
     }
     
@@ -48,6 +49,7 @@
         YWColumnMode *model1 = [YWColumnMode new];
         model1.text = ts;
         model1.width = 100;
+        model1.backgroundColor = [UIColor redColor];
         [self.slideColumnList addObject:model1];
     }
     _fixedList = @[].mutableCopy;
@@ -57,7 +59,7 @@
             YWColumnMode *model1 = [YWColumnMode new];
             model1.text = [NSString stringWithFormat:@"%d行%d列",j,i];
             model1.width = 100;
-            model1.selectedBackgroundColor = [UIColor redColor];
+            model1.backgroundColor = [UIColor redColor];
             [cloumnList addObject:model1];
         }
         [_fixedList addObject:cloumnList];
@@ -69,7 +71,7 @@
         for (int i = 2; i < 9; i ++) {
             YWColumnMode *model1 = [YWColumnMode new];
             model1.text = [NSString stringWithFormat:@"%d行%d列",j,i];
-            model1.selectedBackgroundColor = [UIColor redColor];
+            model1.backgroundColor = [UIColor redColor];
             [cloumnList addObject:model1];
         }
         [_slideList addObject:cloumnList];

@@ -59,7 +59,9 @@
     cell.menuLabel.borderColor = _config.columnBorderColor;
     if (indexPath.row < _slideColumn.count) {
         YWColumnMode *columnModel = _slideColumn[indexPath.row];
-        cell.contentView.backgroundColor = columnModel.backgroundColor;
+        if (_config.columnStyle == YWTableExcelViewColumnStyleBtn) {
+            cell.contentView.backgroundColor = columnModel.backgroundColor;
+        }
         cell.menuLabel.textColor = columnModel.textColor;
         cell.menuLabel.font = [UIFont systemFontOfSize:columnModel.fontSize];
         cell.menuLabel.text = columnModel.text;

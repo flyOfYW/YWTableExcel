@@ -101,10 +101,12 @@ NSString *const YW_EXCEL_NOTIFI_KEY = @"YWCellOffX";;
         }else{
             cell.menuLabel.text = @"";
         }
-        if (model.selected) {
-            cell.contentView.backgroundColor = model.selectedBackgroundColor;
-        }else{
-            cell.contentView.backgroundColor = model.backgroundColor;
+        if (_config.columnStyle == YWTableExcelViewColumnStyleBtn) {
+            if (model.selected) {
+                cell.contentView.backgroundColor = model.selectedBackgroundColor;
+            }else{
+                cell.contentView.backgroundColor = model.backgroundColor;
+            }
         }
     }
 }
