@@ -52,17 +52,19 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     YWTableExcelViewColl *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"defalutHeadCell"
                                                                            forIndexPath:indexPath];
+    return cell;
+}
+- (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(YWTableExcelViewColl *)cell forItemAtIndexPath:(NSIndexPath *)indexPath{
     cell.menuLabel.borderWidth = _config.columnBorderWidth;
     cell.menuLabel.borderColor = _config.columnBorderColor;
     if (indexPath.row < _slideColumn.count) {
         YWColumnMode *columnModel = _slideColumn[indexPath.row];
         cell.contentView.backgroundColor = columnModel.backgroundColor;
         cell.menuLabel.textColor = columnModel.textColor;
+        cell.menuLabel.font = [UIFont systemFontOfSize:columnModel.fontSize];
         cell.menuLabel.text = columnModel.text;
     }
-    return cell;
 }
-
 #pragma mark - UIScrollViewDelegate
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
     _isAllowedNotification = NO;//
@@ -146,7 +148,7 @@
         if (_config.columnStyle != YWTableExcelViewColumnStyleBtn) {
             YWDrawLabel *lbl = [YWDrawLabel new];
             lbl.text = column.text;
-            lbl.font = [UIFont systemFontOfSize:14];
+            lbl.font = [UIFont systemFontOfSize:column.fontSize];
             lbl.textAlignment = NSTextAlignmentCenter;
             lbl.textColor = column.textColor;
             lbl.tag = 100 + index;
@@ -155,7 +157,7 @@
             titleLbl = lbl;
         }else{
             YWDrawButton *btn = [YWDrawButton buttonWithType:UIButtonTypeCustom];
-            btn.titleLabel.font = [UIFont systemFontOfSize:14];
+            btn.titleLabel.font = [UIFont systemFontOfSize:column.fontSize];
             [btn setTitleColor:column.textColor forState:UIControlStateNormal];
             btn.mode = column;
             [btn setTitle:column.text forState:UIControlStateNormal];

@@ -87,11 +87,15 @@ NSString *const YW_EXCEL_NOTIFI_KEY = @"YWCellOffX";;
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     YWTableExcelViewColl *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"YWTableExcelViewColl"
                                                                            forIndexPath:indexPath];
+    return cell;
+}
+- (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(YWTableExcelViewColl *)cell forItemAtIndexPath:(NSIndexPath *)indexPath{
     cell.menuLabel.borderWidth = _config.columnBorderWidth;
     cell.menuLabel.borderColor = _config.columnBorderColor;
     if (indexPath.row < _slideData.count) {
         YWColumnMode *model = _slideData[indexPath.row];
         cell.menuLabel.textColor = model.textColor;
+        cell.menuLabel.font = [UIFont systemFontOfSize:model.fontSize];
         if (_canColumn) {
             cell.menuLabel.text = model.text;
         }else{
@@ -103,7 +107,6 @@ NSString *const YW_EXCEL_NOTIFI_KEY = @"YWCellOffX";;
             cell.contentView.backgroundColor = model.backgroundColor;
         }
     }
-    return cell;
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row < _slideColumn.count) {
@@ -201,7 +204,7 @@ NSString *const YW_EXCEL_NOTIFI_KEY = @"YWCellOffX";;
         UIView *titleLbl = nil;
         if (_config.columnStyle != YWTableExcelViewColumnStyleBtn) {
             YWDrawLabel *lbl = [YWDrawLabel new];
-            lbl.font = [UIFont systemFontOfSize:14];
+            lbl.font = [UIFont systemFontOfSize:column.fontSize];
             lbl.textAlignment = NSTextAlignmentCenter;
             lbl.textColor = column.textColor;
             lbl.tag = 100 + index;
@@ -210,7 +213,7 @@ NSString *const YW_EXCEL_NOTIFI_KEY = @"YWCellOffX";;
             titleLbl = lbl;
         }else{
             YWDrawButton *btn = [YWDrawButton buttonWithType:UIButtonTypeCustom];
-            btn.titleLabel.font = [UIFont systemFontOfSize:14];
+            btn.titleLabel.font = [UIFont systemFontOfSize:column.fontSize];
             [btn setTitleColor:column.textColor forState:UIControlStateNormal];
             btn.mode = column;
             btn.tag = 100 + index;

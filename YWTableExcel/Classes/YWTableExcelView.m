@@ -96,6 +96,10 @@ YWTableExcelCellDelegate>
         cell.delegate = self;
     }
     _excelCell = cell;
+
+    return cell;
+}
+- (void)tableView:(UITableView *)tableView willDisplayCell:(YWTableExcelCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     __weak typeof(self)weakSelf = self;
     cell.collClick = ^(UITableViewCell *cell) {
         __strong typeof(weakSelf)strongSelf = weakSelf;
@@ -119,7 +123,6 @@ YWTableExcelCellDelegate>
     [cell reloadFixed:fixedList slide:slideList];
     fixedList = nil;
     slideList = nil;
-    return cell;
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     if (_delegateHas.excelViewForHeaderInSectionMode) {
