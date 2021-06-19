@@ -45,12 +45,17 @@
     
     NSArray *arr1 = @[@"语文",@"数学",@"物理",@"化学",@"生物",@"英语",@"政治"];
     _slideColumnList = [NSMutableArray new];
+    NSInteger i = 0;
     for (NSString *ts in arr1) {
         YWColumnMode *model1 = [YWColumnMode new];
         model1.text = ts;
         model1.width = 100;
+        if (i == 1) {
+            model1.width = 200;
+        }
         model1.backgroundColor = [UIColor redColor];
         [self.slideColumnList addObject:model1];
+        i ++;
     }
     _fixedList = @[].mutableCopy;
     for (int j = 0; j < 20; j ++) {

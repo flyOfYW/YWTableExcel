@@ -67,6 +67,15 @@
         cell.menuLabel.text = columnModel.text;
     }
 }
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.row < _slideColumn.count) {
+        YWColumnMode *model = _slideColumn[indexPath.row];
+        CGFloat hi = collectionView.frame.size.height;
+        return CGSizeMake(model.width, hi <= 5 ? _config.defalutHeight : hi);
+    }
+    YWColumnMode *model =  _slideColumn.firstObject;
+    return CGSizeMake(model.width, _config.defalutHeight);
+}
 #pragma mark - UIScrollViewDelegate
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
     _isAllowedNotification = NO;//
@@ -185,9 +194,9 @@
         index += 1;
     }
     if (slideColumnList.count > 0) {
-        YWColumnMode *column = slideColumnList.firstObject;
+//        YWColumnMode *column = slideColumnList.firstObject;
         UICollectionViewFlowLayout *layout = [UICollectionViewFlowLayout new];
-        layout.itemSize = CGSizeMake(column.width, _config.defalutHeight);
+//        layout.itemSize = CGSizeMake(column.width, _config.defalutHeight);
         layout.minimumInteritemSpacing = padding;
         layout.minimumLineSpacing = padding;
         [layout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
